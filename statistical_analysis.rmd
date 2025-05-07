@@ -1,0 +1,312 @@
+---
+title: "Diffusion Tensor Imaging and Cognition Analysis in Alzheimer’s Disease"
+subtitle: "MSc Bioinformatics and Biostatistics"
+author: "Carmen Laura Frias Pérez"
+output:
+  html_document:
+    toc_depth: '5'
+    df_print: paged
+---
+
+```{r, warning = FALSE, message = FALSE}
+# Load of required packages
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(knitr)
+library(car)
+```
+
+```{r, warning = FALSE}
+# Load and preprocess demographic and neurocognitive data
+demographic_data <- read.csv("demographic_neurocognitive_tests.csv", sep = ",", header = TRUE) %>%
+  # Remove of Visit column
+  select(-Visit) %>%
+  # Transform EMCI and LMCI to MCI and SMC to CN in order to get data from three groups: CN, MCI and AD
+  mutate(Group = case_when(
+      Group == "EMCI" ~ "MCI",
+      Group == "LMCI" ~ "MCI",
+      Group == "SMC" ~ "CN",
+      TRUE ~ Group
+  ))
+
+# Load volume and DTI-metrics extracted from imaging data
+imaging_metrics_volume_data <- read.csv("volume_metrics_results.csv", sep = ",", header = TRUE)
+
+# Merge both datasets and remove subjects with missing DTI-metrics
+analysis_data <- merge(demographic_data, imaging_metrics_volume_data, by = "ID") %>%
+  filter(!(ID %in% c("003_S_4900","016_S_4638"))) %>%
+  # Order data according to the Groups
+  mutate(Group = factor(Group, levels = c("CN", "MCI", "AD")))
+
+# Display of data of the first rows
+head(analysis_data)
+```
+
+# Descriptive Statistics
+
+```{r, warning = FALSE}
+# Calculation of gender distribution in the general data (numerical and % values)
+analysis_data %>% count(Gender) %>% mutate(percent = round(n / sum(n) * 100, 1))
+
+# Calculation of gender distribution in each group (numerical and % values)
+analysis_data %>%
+  # Extract data by group
+  group_by(Group, Gender) %>%
+  # Calculate the number of male and females in each group
+  summarise(n = n(), .groups = "drop") %>%
+  # Calculate the percentage of male and females in each group
+  mutate(percent = round(n / sum(n) * 100, 1))
+
+# Calculate mean and SD for all numeric variables of the whole dataset
+general_stats <- analysis_data %>%
+  # Exclude ID, Gender and Group columns (non-numerical) 
+  summarise(across(-c(ID, Gender, Group), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
+  pivot_longer(
+    # Reshape columns into rows for better result organization
+    cols = everything(), names_to="variable", values_to="value"
+  )
+
+# Display of first rows of the data obtained
+head(general_stats)
+
+# Calculate means and SDs for numeric variables by group
+group_stats <- analysis_data %>%
+  # Extract data by group
+  group_by(Group) %>%
+  # Exclude ID and Gender columns (non-numerical) and calculate these parameters for the rest of them
+  summarise(across(-c(ID, Gender), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
+  # Reshape columns into rows for better results organization
+  pivot_longer(cols = -Group, names_to = "variable", values_to = "value") %>%
+  pivot_wider(names_from = Group, values_from = value)
+
+# Display of first rows of the data obtained
+head(group_stats)
+```
+
+# Descriptive Representations
+
+```{r, warning = FALSE}
+# Prepare data for pie chart showing patient distribution by group
+patients_group <- analysis_data %>%
+  # Count the number of patients per group
+  count(Group) %>%
+  # Represent this number as a percentage (%)
+  mutate(proportion = n / sum(n), label = paste0(Group, "(", round(proportion * 100, 1), "%)"))
+
+# Pie chart representation 
+ggplot(patients_group, aes(x = "", y = proportion, fill = Group)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  geom_text(aes(label = label), position = position_stack(vjust = 0.5)) +
+  labs(title = "Distribution of patients by group") +
+  theme_void()
+
+# Prepare data for boxplots of Age and Education by group
+age_educ_group <- analysis_data %>%
+  # Choose the necessary columns
+  select(Group, Age, Education) %>%
+  # Extract the names of the variables and the values of these parameters
+  pivot_longer(cols = c(Age, Education), names_to = "variable", values_to ="value")
+
+# Boxplot representations
+ggplot(age_educ_group, aes(x = Group, y = value, fill = Group)) +
+  geom_boxplot() +
+  facet_wrap(~variable, scales = "free") +
+  labs(title = "Distribution of age and education by group", y = "Value", x = "Group") +
+  theme_minimal()
+
+# Definition of data to do boxplot representations MMSE_Score, FAQ_Score, CDR_Score, ADAS_Score, ADAS_13_Score, FA_global, MD_global, RD_global and AxD_global of each group
+general_boxplot <- c("MMSE_Score", "FAQ_Score", "CDR_Score", "ADAS_Score", "ADAS_13_Score", "FA_global", "MD_global", "RD_global", "AxD_global")
+
+# Boxplot representations
+for (var in general_boxplot) {
+  variable_rep <- ggplot(analysis_data, aes(x = Group, y = .data[[var]], fill = Group)) +
+    geom_boxplot() +
+    labs(title = paste("Boxplot of", var, "by group"), x = "Group", y = var) +
+    theme_minimal()
+  print(variable_rep)
+}
+```
+
+# General and Post-hoc Analysis of the Data
+
+```{r, warning = FALSE}
+# Analysis for Gender variable distribution
+gender_table <- table(analysis_data$Group, analysis_data$Gender)
+chisq.test(gender_table)
+
+# Extract names of all numeric variables
+numeric_values_analyse <- analysis_data %>% select(where(is.numeric)) %>% names()
+
+# Hypothesis tests and post-hoc analysis
+
+# Create a list to store general analysis results 
+analysis_results <- list()
+
+# Create a list to score post-hoc analysis
+posthoc_analysis <- list()
+
+# Run normality and homogeneity assumptions, as well as general analysis and post-hoc analysis
+for(var in numeric_values_analyse) {
+  
+  # Repeat the formula in each numerical variable of each group
+  formula <- reformulate("Group", response = var)
+  
+  # Perform ANOVA model
+  model_ANOVA <- aov(formula, data = analysis_data)
+  
+  # Get the residuals of this model
+  model_residuals <- residuals(model_ANOVA)
+  
+  # Perform Shapiro-Wilk test for normality 
+  shapiro_test <- tryCatch(shapiro.test(model_residuals)$p.value, error = function(e) NA)
+  
+  # Determine than the results are normal if p-value > 0.05
+  normal <- !is.na(shapiro_test) && shapiro_test > 0.05
+  
+  # Perform Levene's test for homogeneity of variance
+  levene_test <- tryCatch(leveneTest(formula, data = analysis_data)$'Pr(>F)'[1], error = function(e) NA)
+  
+  # Determine than the results are homogenous if p-value > 0.05
+  homogeneous <- !is.na(levene_test) && levene_test > 0.05
+  
+  # Consider the previously assumptions to decide the test to be used
+  # If the variables are normal and homogeneous
+  if(normal && homogeneous) {
+    # Perform ANOVA and extract its p-value
+    test <- "ANOVA"
+    pval <- summary(model_ANOVA)[[1]][["Pr(>F)"]][1]
+  # If the variables are not normal and/or homogeneous
+  } else {
+    # Perform Kruskal-Wallis and extract its p-value
+    test <- "Kruskal-Wallis"
+    pval <- kruskal.test(formula, data = analysis_data)$p.value
+  }
+  
+  # Write the results on the list previously created
+  analysis_results[[var]] <- tibble(
+    # Name of the variables
+    variable = var,
+    # Normality condition of the variables
+    normality = ifelse(is.na(shapiro_test), "Error", ifelse(normal, "Yes", "No")),
+    # Homogeneity condition of the variables
+    homogeneity = ifelse(is.na(levene_test), "Error", ifelse(homogeneous, "Yes", "No")),
+    # Test used according to the aforementioned assumptions
+    test = test,
+    # Extract p-value with scientific notation and 2 decimals
+    p_value = formatC(pval, format = "e", digits = 2),
+  )
+  
+  # Execute post-hoc analysis in all significant results obtained
+  if (pval < 0.05) {
+    # If ANOVA was used to the statistical analysis, perform TukeyHSD post-hoc analysis
+    posthoc_analysis[[var]] <- if (test == "ANOVA") TukeyHSD(model_ANOVA)
+    # If Kruskal-Wallis was used to the statistical analysis, perform Wilcoxon signed rank test with pairwise comparisons
+    else pairwise.wilcox.test(analysis_data[[var]], analysis_data$Group, p.adjust.method = "bonferroni")
+  }
+}
+
+# Merge normality and homogeneity assumptions and general analysis results in a table
+general_results <- bind_rows(analysis_results)
+
+# Display of the table with normality and homogeneity assumptions and general analysis results
+kable(general_results)
+
+# Modify format of post-hoc results
+
+# Create another list to score posthoc_results
+posthoc_results <- list()
+
+# Run format modification of posthoc_results into a table
+for(var in names(posthoc_analysis)) {
+  
+  posthoc_variable <- posthoc_analysis[[var]]
+  
+  # If TukeyHSD analysis was used
+  if (inherits(posthoc_variable, "TukeyHSD")) {
+    # Extract the results
+    df_posthoc <- as.data.frame(posthoc_variable$Group)
+    # Define the colnames to be considered 
+    df_posthoc$comparison <- rownames(df_posthoc)
+    df_posthoc$variable <- var
+    df_posthoc$test <- "Tukey"
+    # Create the columns     
+    df_posthoc <- df_posthoc[, c("variable", "comparison", "p adj", "test")]
+    # Rename p-value column
+    names(df_posthoc)[3] <- "p_value"
+    # Write TukeyHSD results in the created dataframe
+    posthoc_results[[var]] <- df_posthoc
+    # If Wilcoxon analysis was used
+  } else if (inherits(posthoc_variable, "pairwise.htest")) {
+    # Extract its p-value
+    df_posthoc <- posthoc_variable$p.value
+    # Skip if there are invalid values for the dataframe
+    if (is.null(df_posthoc) || length(df_posthoc) == 0 || nrow(df_posthoc) == 0 || ncol(df_posthoc) == 0) {
+      next
+    }
+
+    # Ensure names of rows and columns
+    if (is.null(rownames(df_posthoc))) rownames(df_posthoc) <- seq_len(nrow(df_posthoc))
+    if (is.null(colnames(df_posthoc))) colnames(df_posthoc) <- seq_len(ncol(df_posthoc))
+    
+    # Reshape the previous matrix into a long format adding the groups which are being compared and the test used
+    df_long_posthoc <- reshape2::melt(as.matrix(df_posthoc), varnames = c("Group1", "Group2"), value.name = "p_value") %>%
+      filter(!is.na(p_value)) %>%
+      mutate(
+        variable = var,
+        comparison = paste(Group1, "vs", Group2),
+        test = "Wilcoxon"
+      ) %>%
+      select(variable, comparison, test, p_value)
+    # Write the results in the posthoc_results list precreated
+    posthoc_results[[var]] <- df_long_posthoc
+  }
+}
+
+# Merge post-hoc results in the same table
+posthoc_table <- bind_rows(posthoc_results) %>%
+  mutate(
+    # Extract p-value with scientific notation and 2 decimals
+    p_value = formatC(as.numeric(p_value), format = "e", digits = 2),
+  )
+
+# Visualize the post-hoc results
+kable(posthoc_table, row.names = FALSE)
+```
+
+# Correlation study between neurocognitive scores and significant image variables
+
+```{r, warning = FALSE}
+# Define neurocognitive variables: MMSE_Score, FAQ_Score, CDR_Score, ADAS_Score, ADAS_13_Score
+neurocognitive_var <- analysis_data[,6:10]
+
+# Define volume and DTI-metrics achieved from image analysis: Vol_total, FA_global, MD_global, RD_global, AxD_global and by brain region
+image_var <- names(analysis_data)[11:ncol(analysis_data)]
+
+# Add a filter to do the correlation study with the significant imaging variables excluding the volumes (Vol_total was not significant in the previous analysis)
+image_var_sig <- general_results %>%
+  filter(as.numeric(p_value) < 0.05 , variable %in% image_var, !grepl("^Vol", variable)) %>%
+  pull(variable)
+
+# Create a dataset to only include the significant imaging variables
+image_analysis_results <- analysis_data[, image_var_sig]
+
+# Generate a correlation table with the correlation coefficient (r) and p-value to study the relationship between these variables
+correlation_results <- expand.grid(neurocognitive_test = names(neurocognitive_var), image_analysis_results = image_var_sig, stringsAsFactors = FALSE) %>%
+  rowwise() %>%
+  mutate(
+    correlation = cor(analysis_data[[neurocognitive_test]], analysis_data[[image_analysis_results]], use = "complete.obs"),
+    p_value = cor.test(analysis_data[[neurocognitive_test]], analysis_data[[image_analysis_results]])$p.value
+  ) %>%
+  ungroup() %>%
+  mutate(
+    p_value = formatC(as.numeric(p_value), format = "e", digits = 2),
+  )
+
+# Consider those results in which correlation coefficient was higher than 0.3 (moderate correlation,at least)
+correlation_results_filt <- correlation_results %>% filter(abs(correlation) > 0.3)
+
+# Display of the correlation results: correlation coefficient (r) and p-value
+kable(correlation_results_filt)
+```
