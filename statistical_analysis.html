@@ -1664,6 +1664,14 @@ head(analysis_data)</code></pre>
 </div>
 <div id="descriptive-statistics" class="section level1">
 <h1>Descriptive Statistics</h1>
+<pre class="r"><code># Calculation of quantity of patients by group
+analysis_data %&gt;%
+  count(Group, name = &quot;number_patients&quot;)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Group"],"name":[1],"type":["fct"],"align":["left"]},{"label":["number_patients"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"CN","2":"51"},{"1":"MCI","2":"90"},{"1":"AD","2":"42"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <pre class="r"><code># Calculation of gender distribution in the general data (numerical and % values)
 analysis_data %&gt;% count(Gender) %&gt;% mutate(percent = round(n / sum(n) * 100, 1))</code></pre>
 <div data-pagedtable="false">
@@ -1677,11 +1685,13 @@ analysis_data %&gt;%
   group_by(Group, Gender) %&gt;%
   # Calculate the number of male and females in each group
   summarise(n = n(), .groups = &quot;drop&quot;) %&gt;%
-  # Calculate the percentage of male and females in each group
+  # Extract percentage of male and females in each group
+  group_by(Group) %&gt;%
+  # Calculate the percentage 
   mutate(percent = round(n / sum(n) * 100, 1))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Group"],"name":[1],"type":["fct"],"align":["left"]},{"label":["Gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["percent"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"CN","2":"F","3":"30","4":"16.4"},{"1":"CN","2":"M","3":"21","4":"11.5"},{"1":"MCI","2":"F","3":"37","4":"20.2"},{"1":"MCI","2":"M","3":"53","4":"29.0"},{"1":"AD","2":"F","3":"18","4":"9.8"},{"1":"AD","2":"M","3":"24","4":"13.1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["Group"],"name":[1],"type":["fct"],"align":["left"]},{"label":["Gender"],"name":[2],"type":["chr"],"align":["left"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]},{"label":["percent"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"CN","2":"F","3":"30","4":"58.8"},{"1":"CN","2":"M","3":"21","4":"41.2"},{"1":"MCI","2":"F","3":"37","4":"41.1"},{"1":"MCI","2":"M","3":"53","4":"58.9"},{"1":"AD","2":"F","3":"18","4":"42.9"},{"1":"AD","2":"M","3":"24","4":"57.1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r"><code># Calculate mean and SD for all numeric variables of the whole dataset

@@ -46,6 +46,10 @@ head(analysis_data)
 # Descriptive Statistics
 
 ```{r, warning = FALSE}
+# Calculation of quantity of patients by group
+analysis_data %>%
+  count(Group, name = "number_patients")
+
 # Calculation of gender distribution in the general data (numerical and % values)
 analysis_data %>% count(Gender) %>% mutate(percent = round(n / sum(n) * 100, 1))
 
@@ -55,7 +59,9 @@ analysis_data %>%
   group_by(Group, Gender) %>%
   # Calculate the number of male and females in each group
   summarise(n = n(), .groups = "drop") %>%
-  # Calculate the percentage of male and females in each group
+  # Extract percentage of male and females in each group
+  group_by(Group) %>%
+  # Calculate the percentage 
   mutate(percent = round(n / sum(n) * 100, 1))
 
 # Calculate mean and SD for all numeric variables of the whole dataset
