@@ -96,6 +96,6 @@ Inferential statistical testing included:
 
     - Pairwise Wilcoxon tests for non-parametric comparisons.
 
-Correlation analysis was conducted using Pearson’s correlation to examine associations between neurocognitive scores and DTI metrics. Only results with p < 0.05 and |r| ≥ 0.3 (moderate or stronger) were retained. Final outputs were compiled into statistical_analysis.html, offering a complete descriptive and inferential summary of the results.
+Correlation analysis was conducted using Pearson’s correlation to examine associations between neurocognitive scores and DTI-metrics. Only results with p < 0.05 and |r| ≥ 0.3 (moderate or stronger) were retained. Final outputs were compiled into statistical_analysis.html, offering a complete descriptive and inferential summary of the results.
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
