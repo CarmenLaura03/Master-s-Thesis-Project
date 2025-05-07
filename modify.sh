@@ -376,7 +376,7 @@ awk -F',' '
 ' ADAS.csv demographic_MMSE_FAQ_CDR_ADAS.csv > demographic_neurocognitive_tests.csv
 
 # Add the header row to the final output CSV file
-sed -i '1iID,Group,Sex,Age,Visit,Education,MMSE_Score,FAQ_Score,CDR_Score,ADAS_Score,ADAS_13_Score' demographic_neurocognitive_tests.csv
+sed -i '1iID,Group,Gender,Age,Visit,Education,MMSE_Score,FAQ_Score,CDR_Score,ADAS_Score,ADAS_13_Score' demographic_neurocognitive_tests.csv
 
 # Remove all intermediate files
 rm -f patients.csv demographic.csv demographic_MMSE.csv demographic_MMSE_FAQ.csv demographic_MMSE_FAQ_CDR.csv demographic_MMSE_FAQ_CDR_ADAS.csv
