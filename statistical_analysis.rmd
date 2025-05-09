@@ -290,9 +290,9 @@ neurocognitive_var <- analysis_data[,6:10]
 # Define volume and DTI-metrics achieved from image analysis: Vol_total, FA_global, MD_global, RD_global, AxD_global and by brain region
 image_var <- names(analysis_data)[11:ncol(analysis_data)]
 
-# Add a filter to do the correlation study with the significant imaging variables excluding the volumes (Vol_total was not significant in the previous analysis)
+# Add a filter to do the correlation study with the significant imaging variables
 image_var_sig <- general_results %>%
-  filter(as.numeric(p_value) < 0.05 , variable %in% image_var, !grepl("^Vol", variable)) %>%
+  filter(as.numeric(p_value) < 0.05 , variable %in% image_var) %>%
   pull(variable)
 
 # Create a dataset to only include the significant imaging variables
