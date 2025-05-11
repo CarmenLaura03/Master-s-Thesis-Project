@@ -48,10 +48,10 @@ head(analysis_data)
 ```{r, warning = FALSE}
 # Calculation of quantity of patients by group
 analysis_data %>%
-  count(Group, name = "number_patients")
+  count(Group, name = "Number of Patients")
 
 # Calculation of gender distribution in the general data (numerical and % values)
-analysis_data %>% count(Gender) %>% mutate(percent = round(n / sum(n) * 100, 1))
+analysis_data %>% count(Gender) %>% mutate(Percent = round(n / sum(n) * 100, 1))
 
 # Calculation of gender distribution in each group (numerical and % values)
 analysis_data %>%
@@ -62,32 +62,62 @@ analysis_data %>%
   # Extract percentage of male and females in each group
   group_by(Group) %>%
   # Calculate the percentage 
-  mutate(percent = round(n / sum(n) * 100, 1))
+  mutate(Percent = round(n / sum(n) * 100, 1))
 
 # Calculate mean and SD for all numeric variables of the whole dataset
 general_stats <- analysis_data %>%
   # Exclude ID, Gender and Group columns (non-numerical) 
-  summarise(across(-c(ID, Gender, Group), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
+  summarise(across(-c(ID, Gender, Group), list(Mean = ~mean(.x, na.rm = TRUE), SD = ~sd(.x, na.rm = TRUE)), .names = "{.col}_{.fn}")) %>%
   pivot_longer(
     # Reshape columns into rows for better result organization
-    cols = everything(), names_to="variable", values_to="value"
-  )
+    cols = everything(), names_to="Parameter", values_to="value"
+  ) %>%
+  # Re-scale of Vol_
+  mutate(value = ifelse(grepl("^(Vol)", Parameter), value / 1000, value)) %>%
+  # Re-scale of MD_, RD_ and AxD_ variables
+  mutate(value = ifelse(grepl("^(MD|RD|AxD)", Parameter), value * 1000, value)) %>%
+  # Separate variable name from Mean and SD
+  separate(Parameter, into = c("var", "mean_est"), sep = "_(?=[^_]+$)") %>%
+  # Change table format
+  pivot_wider(names_from = mean_est, values_from = value) %>%
+  # Change values 
+  mutate(
+    Mean = as.numeric(Mean),
+    SD = as.numeric(SD),
+    mean_sd = paste0(round(Mean, 2), " ± ", round(SD, 2))) %>%
+  select(Parameter = var, 'Mean ± SD' = mean_sd)
 
 # Display of first rows of the data obtained
-head(general_stats)
+kable(general_stats)
 
 # Calculate means and SDs for numeric variables by group
 group_stats <- analysis_data %>%
   # Extract data by group
   group_by(Group) %>%
   # Exclude ID and Gender columns (non-numerical) and calculate these parameters for the rest of them
-  summarise(across(-c(ID, Gender), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
+  summarise(across(-c(ID, Gender), list(Mean = ~mean(.x, na.rm = TRUE), SD = ~sd(.x, na.rm = TRUE)), .names = "{.col}_{.fn}")) %>%
   # Reshape columns into rows for better results organization
-  pivot_longer(cols = -Group, names_to = "variable", values_to = "value") %>%
-  pivot_wider(names_from = Group, values_from = value)
+  pivot_longer(cols = -Group, names_to = "Parameter", values_to = "Value") %>%
+  # Re-scale of Vol_
+  mutate(Value = ifelse(grepl("^(Vol)", Parameter), Value / 1000, Value)) %>%
+  # Re-scale of MD_, RD_ and AxD_ variables
+  mutate(Value = ifelse(grepl("^(MD|RD|AxD)", Parameter), Value * 1000, Value)) %>%
+  # Separate Parameter name from Mean and SD
+  separate(Parameter, into = c("var", "mean_stand"), sep = "_(?=[^_]+$)") %>%
+  # Change table format
+  pivot_wider(names_from = mean_stand, values_from = Value) %>% 
+  # Change values 
+  mutate(
+    Mean = as.numeric(Mean),
+    SD = as.numeric(SD),
+    mean_sd = paste0(round(Mean, 2), " ± ", round(SD, 2))) %>%
+  # Choose columns to consider
+  select(Parameter = var, Group, mean_sd) %>%
+  # Change table format
+  pivot_wider(names_from = Group, values_from = mean_sd) 
 
 # Display of first rows of the data obtained
-head(group_stats)
+kable(group_stats)
 ```
 
 # Descriptive Representations
@@ -105,7 +135,7 @@ ggplot(patients_group, aes(x = "", y = proportion, fill = Group)) +
   geom_col(width = 1) +
   coord_polar(theta = "y") +
   geom_text(aes(label = label), position = position_stack(vjust = 0.5)) +
-  labs(title = "Distribution of patients by group") +
+  labs(title = "Patients by group") +
   theme_void()
 
 # Prepare data for boxplots of Age and Education by group
@@ -119,17 +149,17 @@ age_educ_group <- analysis_data %>%
 ggplot(age_educ_group, aes(x = Group, y = value, fill = Group)) +
   geom_boxplot() +
   facet_wrap(~variable, scales = "free") +
-  labs(title = "Distribution of age and education by group", y = "Value", x = "Group") +
+  labs(title = "Age and education by group", y = "value", x = "Group") +
   theme_minimal()
 
 # Definition of data to do boxplot representations MMSE_Score, FAQ_Score, CDR_Score, ADAS_Score, ADAS_13_Score, FA_global, MD_global, RD_global and AxD_global of each group
-general_boxplot <- c("MMSE_Score", "FAQ_Score", "CDR_Score", "ADAS_Score", "ADAS_13_Score", "FA_global", "MD_global", "RD_global", "AxD_global")
+general_boxplot <- c("MMSE_Score", "FAQ_Score", "CDR_Score", "ADAS_Score", "ADAS_13_Score", "Vol_total", "FA_global", "MD_global", "RD_global", "AxD_global")
 
 # Boxplot representations
 for (var in general_boxplot) {
   variable_rep <- ggplot(analysis_data, aes(x = Group, y = .data[[var]], fill = Group)) +
     geom_boxplot() +
-    labs(title = paste("Boxplot of", var, "by group"), x = "Group", y = var) +
+    labs(title = paste(var, "by group"), x = "Group", y = var) +
     theme_minimal()
   print(variable_rep)
 }
@@ -193,15 +223,13 @@ for(var in numeric_values_analyse) {
   # Write the results on the list previously created
   analysis_results[[var]] <- tibble(
     # Name of the variables
-    variable = var,
-    # Normality condition of the variables
-    normality = ifelse(is.na(shapiro_test), "Error", ifelse(normal, "Yes", "No")),
-    # Homogeneity condition of the variables
-    homogeneity = ifelse(is.na(levene_test), "Error", ifelse(homogeneous, "Yes", "No")),
-    # Test used according to the aforementioned assumptions
-    test = test,
+    Parameter = var,
+    # Shapiro-Wilk p-value
+    Shapiro_p_value = formatC(shapiro_test, format = "e", digits = 2),
+    # Levene Test p-value
+    Levene_p_value = formatC(levene_test, format = "e", digits = 2),
     # Extract p-value with scientific notation and 2 decimals
-    p_value = formatC(pval, format = "e", digits = 2),
+    Test_p_value = formatC(pval, format = "e", digits = 2),
   )
   
   # Execute post-hoc analysis in all significant results obtained
@@ -234,11 +262,11 @@ for(var in names(posthoc_analysis)) {
     # Extract the results
     df_posthoc <- as.data.frame(posthoc_variable$Group)
     # Define the colnames to be considered 
-    df_posthoc$comparison <- rownames(df_posthoc)
-    df_posthoc$variable <- var
+    df_posthoc$Comparison <- rownames(df_posthoc)
+    df_posthoc$Parameter <- var
     df_posthoc$test <- "Tukey"
     # Create the columns     
-    df_posthoc <- df_posthoc[, c("variable", "comparison", "p adj", "test")]
+    df_posthoc <- df_posthoc[, c("Parameter", "Comparison", "p adj")]
     # Rename p-value column
     names(df_posthoc)[3] <- "p_value"
     # Write TukeyHSD results in the created dataframe
@@ -260,11 +288,10 @@ for(var in names(posthoc_analysis)) {
     df_long_posthoc <- reshape2::melt(as.matrix(df_posthoc), varnames = c("Group1", "Group2"), value.name = "p_value") %>%
       filter(!is.na(p_value)) %>%
       mutate(
-        variable = var,
-        comparison = paste(Group1, "vs", Group2),
-        test = "Wilcoxon"
+        Parameter = var,
+        Comparison = paste(Group1, "-", Group2),
       ) %>%
-      select(variable, comparison, test, p_value)
+      select(Parameter, Comparison, p_value)
     # Write the results in the posthoc_results list precreated
     posthoc_results[[var]] <- df_long_posthoc
   }
@@ -292,27 +319,25 @@ image_var <- names(analysis_data)[11:ncol(analysis_data)]
 
 # Add a filter to do the correlation study with the significant imaging variables
 image_var_sig <- general_results %>%
-  filter(as.numeric(p_value) < 0.05 , variable %in% image_var) %>%
-  pull(variable)
+  filter(as.numeric(Test_p_value) < 0.05 , Parameter %in% image_var) %>%
+  pull(Parameter)
 
 # Create a dataset to only include the significant imaging variables
 image_analysis_results <- analysis_data[, image_var_sig]
 
 # Generate a correlation table with the correlation coefficient (r) and p-value to study the relationship between these variables
-correlation_results <- expand.grid(neurocognitive_test = names(neurocognitive_var), image_analysis_results = image_var_sig, stringsAsFactors = FALSE) %>%
+correlation_results <- expand.grid(Neurocognitive_Test = names(neurocognitive_var), Imaging_Results = image_var_sig, stringsAsFactors = FALSE) %>%
   rowwise() %>%
   mutate(
-    correlation = cor(analysis_data[[neurocognitive_test]], analysis_data[[image_analysis_results]], use = "complete.obs"),
-    p_value = cor.test(analysis_data[[neurocognitive_test]], analysis_data[[image_analysis_results]])$p.value
+    Correlation_coefficient = cor(analysis_data[[Neurocognitive_Test]], analysis_data[[Imaging_Results]], use = "complete.obs"),
+    p_value = cor.test(analysis_data[[Neurocognitive_Test]], analysis_data[[Imaging_Results]])$p.value
   ) %>%
   ungroup() %>%
   mutate(
+    Correlation_coefficient = round(Correlation_coefficient, 2),
     p_value = formatC(as.numeric(p_value), format = "e", digits = 2),
   )
 
-# Consider those results in which correlation coefficient was higher than 0.3 (moderate correlation,at least)
-correlation_results_filt <- correlation_results %>% filter(abs(correlation) > 0.3)
-
 # Display of the correlation results: correlation coefficient (r) and p-value
-kable(correlation_results_filt)
+kable(correlation_results)
 ```
