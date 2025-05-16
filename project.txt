@@ -1,6 +1,6 @@
 ./project
-├── dataset_description.json
-├── README
+├── bids_dataset_description.json
+├── bids_README
 ├── sub-001
 │   ├── anat
 │   │   ├── sub-001_T1w.json
