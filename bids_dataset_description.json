@@ -1,0 +1,23 @@
+ {
+ "Name": "Diffusion Tensor Imaging and Cognition Analysis in Alzheimer's Disease",
+ "BIDSVersion": "1.0.2",
+ "DatasetType": "raw",
+ "Authors": [
+   "Carmen Laura Frias Pérez"
+ ],
+ "License": "ADNI data usage agreement",
+ "GeneratedBy": [
+   {
+     "Name": "dcm2niix",
+     "Version": "v1.0.20241211",
+     "Description": "Conversion of ADNI DICOM images to BIDS-compatible NIfTI format"
+   }
+ ],
+ "SourceDatasets": [
+   {
+     "URL": "https://adni.loni.usc.edu/",
+     "DOI": "10.1038/sdata.2016.47",
+     "Version": "ADNI2"
+   }
+ ]
+}

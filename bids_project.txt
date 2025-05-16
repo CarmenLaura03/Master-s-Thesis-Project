@@ -1,0 +1,1661 @@
+./project
+├── bids_dataset_description.json
+├── bids_README
+├── sub-001
+│   ├── anat
+│   │   ├── sub-001_T1w.json
+│   │   └── sub-001_T1w.nii.gz
+│   └── dwi
+│       ├── sub-001_dwi.bval
+│       ├── sub-001_dwi.bvec
+│       ├── sub-001_dwi.json
+│       └── sub-001_dwi.nii.gz
+├── sub-002
+│   ├── anat
+│   │   ├── sub-002_T1w.json
+│   │   └── sub-002_T1w.nii.gz
+│   └── dwi
+│       ├── sub-002_dwi.bval
+│       ├── sub-002_dwi.bvec
+│       ├── sub-002_dwi.json
+│       └── sub-002_dwi.nii.gz
+├── sub-003
+│   ├── anat
+│   │   ├── sub-003_T1w.json
+│   │   └── sub-003_T1w.nii.gz
+│   └── dwi
+│       ├── sub-003_dwi.bval
+│       ├── sub-003_dwi.bvec
+│       ├── sub-003_dwi.json
+│       └── sub-003_dwi.nii.gz
+├── sub-004
+│   ├── anat
+│   │   ├── sub-004_T1w.json
+│   │   └── sub-004_T1w.nii.gz
+│   └── dwi
+│       ├── sub-004_dwi.bval
+│       ├── sub-004_dwi.bvec
+│       ├── sub-004_dwi.json
+│       └── sub-004_dwi.nii.gz
+├── sub-005
+│   ├── anat
+│   │   ├── sub-005_T1w.json
+│   │   └── sub-005_T1w.nii.gz
+│   └── dwi
+│       ├── sub-005_dwi.bval
+│       ├── sub-005_dwi.bvec
+│       ├── sub-005_dwi.json
+│       └── sub-005_dwi.nii.gz
+├── sub-006
+│   ├── anat
+│   │   ├── sub-006_T1w.json
+│   │   └── sub-006_T1w.nii.gz
+│   └── dwi
+│       ├── sub-006_dwi.bval
+│       ├── sub-006_dwi.bvec
+│       ├── sub-006_dwi.json
+│       └── sub-006_dwi.nii.gz
+├── sub-007
+│   ├── anat
+│   │   ├── sub-007_T1w.json
+│   │   └── sub-007_T1w.nii.gz
+│   └── dwi
+│       ├── sub-007_dwi.bval
+│       ├── sub-007_dwi.bvec
+│       ├── sub-007_dwi.json
+│       └── sub-007_dwi.nii.gz
+├── sub-008
+│   ├── anat
+│   │   ├── sub-008_T1w.json
+│   │   └── sub-008_T1w.nii.gz
+│   └── dwi
+│       ├── sub-008_dwi.bval
+│       ├── sub-008_dwi.bvec
+│       ├── sub-008_dwi.json
+│       └── sub-008_dwi.nii.gz
+├── sub-009
+│   ├── anat
+│   │   ├── sub-009_T1w.json
+│   │   └── sub-009_T1w.nii.gz
+│   └── dwi
+│       ├── sub-009_dwi.bval
+│       ├── sub-009_dwi.bvec
+│       ├── sub-009_dwi.json
+│       └── sub-009_dwi.nii.gz
+├── sub-010
+│   ├── anat
+│   │   ├── sub-010_T1w.json
+│   │   └── sub-010_T1w.nii.gz
+│   └── dwi
+│       ├── sub-010_dwi.bval
+│       ├── sub-010_dwi.bvec
+│       ├── sub-010_dwi.json
+│       └── sub-010_dwi.nii.gz
+├── sub-011
+│   ├── anat
+│   │   ├── sub-011_T1w.json
+│   │   └── sub-011_T1w.nii.gz
+│   └── dwi
+│       ├── sub-011_dwi.bval
+│       ├── sub-011_dwi.bvec
+│       ├── sub-011_dwi.json
+│       └── sub-011_dwi.nii.gz
+├── sub-012
+│   ├── anat
+│   │   ├── sub-012_T1w.json
+│   │   └── sub-012_T1w.nii.gz
+│   └── dwi
+│       ├── sub-012_dwi.bval
+│       ├── sub-012_dwi.bvec
+│       ├── sub-012_dwi.json
+│       └── sub-012_dwi.nii.gz
+├── sub-013
+│   ├── anat
+│   │   ├── sub-013_T1w.json
+│   │   └── sub-013_T1w.nii.gz
+│   └── dwi
+│       ├── sub-013_dwi.bval
+│       ├── sub-013_dwi.bvec
+│       ├── sub-013_dwi.json
+│       └── sub-013_dwi.nii.gz
+├── sub-014
+│   ├── anat
+│   │   ├── sub-014_T1w.json
+│   │   └── sub-014_T1w.nii.gz
+│   └── dwi
+│       ├── sub-014_dwi.bval
+│       ├── sub-014_dwi.bvec
+│       ├── sub-014_dwi.json
+│       └── sub-014_dwi.nii.gz
+├── sub-015
+│   ├── anat
+│   │   ├── sub-015_T1w.json
+│   │   └── sub-015_T1w.nii.gz
+│   └── dwi
+│       ├── sub-015_dwi.bval
+│       ├── sub-015_dwi.bvec
+│       ├── sub-015_dwi.json
+│       └── sub-015_dwi.nii.gz
+├── sub-016
+│   ├── anat
+│   │   ├── sub-016_T1w.json
+│   │   └── sub-016_T1w.nii.gz
+│   └── dwi
+│       ├── sub-016_dwi.bval
+│       ├── sub-016_dwi.bvec
+│       ├── sub-016_dwi.json
+│       └── sub-016_dwi.nii.gz
+├── sub-017
+│   ├── anat
+│   │   ├── sub-017_T1w.json
+│   │   └── sub-017_T1w.nii.gz
+│   └── dwi
+│       ├── sub-017_dwi.bval
+│       ├── sub-017_dwi.bvec
+│       ├── sub-017_dwi.json
+│       └── sub-017_dwi.nii.gz
+├── sub-018
+│   ├── anat
+│   │   ├── sub-018_T1w.json
+│   │   └── sub-018_T1w.nii.gz
+│   └── dwi
+│       ├── sub-018_dwi.bval
+│       ├── sub-018_dwi.bvec
+│       ├── sub-018_dwi.json
+│       └── sub-018_dwi.nii.gz
+├── sub-019
+│   ├── anat
+│   │   ├── sub-019_T1w.json
+│   │   └── sub-019_T1w.nii.gz
+│   └── dwi
+│       ├── sub-019_dwi.bval
+│       ├── sub-019_dwi.bvec
+│       ├── sub-019_dwi.json
+│       └── sub-019_dwi.nii.gz
+├── sub-020
+│   ├── anat
+│   │   ├── sub-020_T1w.json
+│   │   └── sub-020_T1w.nii.gz
+│   └── dwi
+│       ├── sub-020_dwi.bval
+│       ├── sub-020_dwi.bvec
+│       ├── sub-020_dwi.json
+│       └── sub-020_dwi.nii.gz
+├── sub-021
+│   ├── anat
+│   │   ├── sub-021_T1w.json
+│   │   └── sub-021_T1w.nii.gz
+│   └── dwi
+│       ├── sub-021_dwi.bval
+│       ├── sub-021_dwi.bvec
+│       ├── sub-021_dwi.json
+│       └── sub-021_dwi.nii.gz
+├── sub-022
+│   ├── anat
+│   │   ├── sub-022_T1w.json
+│   │   └── sub-022_T1w.nii.gz
+│   └── dwi
+│       ├── sub-022_dwi.bval
+│       ├── sub-022_dwi.bvec
+│       ├── sub-022_dwi.json
+│       └── sub-022_dwi.nii.gz
+├── sub-023
+│   ├── anat
+│   │   ├── sub-023_T1w.json
+│   │   └── sub-023_T1w.nii.gz
+│   └── dwi
+│       ├── sub-023_dwi.bval
+│       ├── sub-023_dwi.bvec
+│       ├── sub-023_dwi.json
+│       └── sub-023_dwi.nii.gz
+├── sub-024
+│   ├── anat
+│   │   ├── sub-024_T1w.json
+│   │   └── sub-024_T1w.nii.gz
+│   └── dwi
+│       ├── sub-024_dwi.bval
+│       ├── sub-024_dwi.bvec
+│       ├── sub-024_dwi.json
+│       └── sub-024_dwi.nii.gz
+├── sub-025
+│   ├── anat
+│   │   ├── sub-025_T1w.json
+│   │   └── sub-025_T1w.nii.gz
+│   └── dwi
+│       ├── sub-025_dwi.bval
+│       ├── sub-025_dwi.bvec
+│       ├── sub-025_dwi.json
+│       └── sub-025_dwi.nii.gz
+├── sub-026
+│   ├── anat
+│   │   ├── sub-026_T1w.json
+│   │   └── sub-026_T1w.nii.gz
+│   └── dwi
+│       ├── sub-026_dwi.bval
+│       ├── sub-026_dwi.bvec
+│       ├── sub-026_dwi.json
+│       └── sub-026_dwi.nii.gz
+├── sub-027
+│   ├── anat
+│   │   ├── sub-027_T1w.json
+│   │   └── sub-027_T1w.nii.gz
+│   └── dwi
+│       ├── sub-027_dwi.bval
+│       ├── sub-027_dwi.bvec
+│       ├── sub-027_dwi.json
+│       └── sub-027_dwi.nii.gz
+├── sub-028
+│   ├── anat
+│   │   ├── sub-028_T1w.json
+│   │   └── sub-028_T1w.nii.gz
+│   └── dwi
+│       ├── sub-028_dwi.bval
+│       ├── sub-028_dwi.bvec
+│       ├── sub-028_dwi.json
+│       └── sub-028_dwi.nii.gz
+├── sub-029
+│   ├── anat
+│   │   ├── sub-029_T1w.json
+│   │   └── sub-029_T1w.nii.gz
+│   └── dwi
+│       ├── sub-029_dwi.bval
+│       ├── sub-029_dwi.bvec
+│       ├── sub-029_dwi.json
+│       └── sub-029_dwi.nii.gz
+├── sub-030
+│   ├── anat
+│   │   ├── sub-030_T1w.json
+│   │   └── sub-030_T1w.nii.gz
+│   └── dwi
+│       ├── sub-030_dwi.bval
+│       ├── sub-030_dwi.bvec
+│       ├── sub-030_dwi.json
+│       └── sub-030_dwi.nii.gz
+├── sub-031
+│   ├── anat
+│   │   ├── sub-031_T1w.json
+│   │   └── sub-031_T1w.nii.gz
+│   └── dwi
+│       ├── sub-031_dwi.bval
+│       ├── sub-031_dwi.bvec
+│       ├── sub-031_dwi.json
+│       └── sub-031_dwi.nii.gz
+├── sub-032
+│   ├── anat
+│   │   ├── sub-032_T1w.json
+│   │   └── sub-032_T1w.nii.gz
+│   └── dwi
+│       ├── sub-032_dwi.bval
+│       ├── sub-032_dwi.bvec
+│       ├── sub-032_dwi.json
+│       └── sub-032_dwi.nii.gz
+├── sub-033
+│   ├── anat
+│   │   ├── sub-033_T1w.json
+│   │   └── sub-033_T1w.nii.gz
+│   └── dwi
+│       ├── sub-033_dwi.bval
+│       ├── sub-033_dwi.bvec
+│       ├── sub-033_dwi.json
+│       └── sub-033_dwi.nii.gz
+├── sub-034
+│   ├── anat
+│   │   ├── sub-034_T1w.json
+│   │   └── sub-034_T1w.nii.gz
+│   └── dwi
+│       ├── sub-034_dwi.bval
+│       ├── sub-034_dwi.bvec
+│       ├── sub-034_dwi.json
+│       └── sub-034_dwi.nii.gz
+├── sub-035
+│   ├── anat
+│   │   ├── sub-035_T1w.json
+│   │   └── sub-035_T1w.nii.gz
+│   └── dwi
+│       ├── sub-035_dwi.bval
+│       ├── sub-035_dwi.bvec
+│       ├── sub-035_dwi.json
+│       └── sub-035_dwi.nii.gz
+├── sub-036
+│   ├── anat
+│   │   ├── sub-036_T1w.json
+│   │   └── sub-036_T1w.nii.gz
+│   └── dwi
+│       ├── sub-036_dwi.bval
+│       ├── sub-036_dwi.bvec
+│       ├── sub-036_dwi.json
+│       └── sub-036_dwi.nii.gz
+├── sub-037
+│   ├── anat
+│   │   ├── sub-037_T1w.json
+│   │   └── sub-037_T1w.nii.gz
+│   └── dwi
+│       ├── sub-037_dwi.bval
+│       ├── sub-037_dwi.bvec
+│       ├── sub-037_dwi.json
+│       └── sub-037_dwi.nii.gz
+├── sub-038
+│   ├── anat
+│   │   ├── sub-038_T1w.json
+│   │   └── sub-038_T1w.nii.gz
+│   └── dwi
+│       ├── sub-038_dwi.bval
+│       ├── sub-038_dwi.bvec
+│       ├── sub-038_dwi.json
+│       └── sub-038_dwi.nii.gz
+├── sub-039
+│   ├── anat
+│   │   ├── sub-039_T1w.json
+│   │   └── sub-039_T1w.nii.gz
+│   └── dwi
+│       ├── sub-039_dwi.bval
+│       ├── sub-039_dwi.bvec
+│       ├── sub-039_dwi.json
+│       └── sub-039_dwi.nii.gz
+├── sub-040
+│   ├── anat
+│   │   ├── sub-040_T1w.json
+│   │   └── sub-040_T1w.nii.gz
+│   └── dwi
+│       ├── sub-040_dwi.bval
+│       ├── sub-040_dwi.bvec
+│       ├── sub-040_dwi.json
+│       └── sub-040_dwi.nii.gz
+├── sub-041
+│   ├── anat
+│   │   ├── sub-041_T1w.json
+│   │   └── sub-041_T1w.nii.gz
+│   └── dwi
+│       ├── sub-041_dwi.bval
+│       ├── sub-041_dwi.bvec
+│       ├── sub-041_dwi.json
+│       └── sub-041_dwi.nii.gz
+├── sub-042
+│   ├── anat
+│   │   ├── sub-042_T1w.json
+│   │   └── sub-042_T1w.nii.gz
+│   └── dwi
+│       ├── sub-042_dwi.bval
+│       ├── sub-042_dwi.bvec
+│       ├── sub-042_dwi.json
+│       └── sub-042_dwi.nii.gz
+├── sub-043
+│   ├── anat
+│   │   ├── sub-043_T1w.json
+│   │   └── sub-043_T1w.nii.gz
+│   └── dwi
+│       ├── sub-043_dwi.bval
+│       ├── sub-043_dwi.bvec
+│       ├── sub-043_dwi.json
+│       └── sub-043_dwi.nii.gz
+├── sub-044
+│   ├── anat
+│   │   ├── sub-044_T1w.json
+│   │   └── sub-044_T1w.nii.gz
+│   └── dwi
+│       ├── sub-044_dwi.bval
+│       ├── sub-044_dwi.bvec
+│       ├── sub-044_dwi.json
+│       └── sub-044_dwi.nii.gz
+├── sub-045
+│   ├── anat
+│   │   ├── sub-045_T1w.json
+│   │   └── sub-045_T1w.nii.gz
+│   └── dwi
+│       ├── sub-045_dwi.bval
+│       ├── sub-045_dwi.bvec
+│       ├── sub-045_dwi.json
+│       └── sub-045_dwi.nii.gz
+├── sub-046
+│   ├── anat
+│   │   ├── sub-046_T1w.json
+│   │   └── sub-046_T1w.nii.gz
+│   └── dwi
+│       ├── sub-046_dwi.bval
+│       ├── sub-046_dwi.bvec
+│       ├── sub-046_dwi.json
+│       └── sub-046_dwi.nii.gz
+├── sub-047
+│   ├── anat
+│   │   ├── sub-047_T1w.json
+│   │   └── sub-047_T1w.nii.gz
+│   └── dwi
+│       ├── sub-047_dwi.bval
+│       ├── sub-047_dwi.bvec
+│       ├── sub-047_dwi.json
+│       └── sub-047_dwi.nii.gz
+├── sub-048
+│   ├── anat
+│   │   ├── sub-048_T1w.json
+│   │   └── sub-048_T1w.nii.gz
+│   └── dwi
+│       ├── sub-048_dwi.bval
+│       ├── sub-048_dwi.bvec
+│       ├── sub-048_dwi.json
+│       └── sub-048_dwi.nii.gz
+├── sub-049
+│   ├── anat
+│   │   ├── sub-049_T1w.json
+│   │   └── sub-049_T1w.nii.gz
+│   └── dwi
+│       ├── sub-049_dwi.bval
+│       ├── sub-049_dwi.bvec
+│       ├── sub-049_dwi.json
+│       └── sub-049_dwi.nii.gz
+├── sub-050
+│   ├── anat
+│   │   ├── sub-050_T1w.json
+│   │   └── sub-050_T1w.nii.gz
+│   └── dwi
+│       ├── sub-050_dwi.bval
+│       ├── sub-050_dwi.bvec
+│       ├── sub-050_dwi.json
+│       └── sub-050_dwi.nii.gz
+├── sub-051
+│   ├── anat
+│   │   ├── sub-051_T1w.json
+│   │   └── sub-051_T1w.nii.gz
+│   └── dwi
+│       ├── sub-051_dwi.bval
+│       ├── sub-051_dwi.bvec
+│       ├── sub-051_dwi.json
+│       └── sub-051_dwi.nii.gz
+├── sub-052
+│   ├── anat
+│   │   ├── sub-052_T1w.json
+│   │   └── sub-052_T1w.nii.gz
+│   └── dwi
+│       ├── sub-052_dwi.bval
+│       ├── sub-052_dwi.bvec
+│       ├── sub-052_dwi.json
+│       └── sub-052_dwi.nii.gz
+├── sub-053
+│   ├── anat
+│   │   ├── sub-053_T1w.json
+│   │   └── sub-053_T1w.nii.gz
+│   └── dwi
+│       ├── sub-053_dwi.bval
+│       ├── sub-053_dwi.bvec
+│       ├── sub-053_dwi.json
+│       └── sub-053_dwi.nii.gz
+├── sub-054
+│   ├── anat
+│   │   ├── sub-054_T1w.json
+│   │   └── sub-054_T1w.nii.gz
+│   └── dwi
+│       ├── sub-054_dwi.bval
+│       ├── sub-054_dwi.bvec
+│       ├── sub-054_dwi.json
+│       └── sub-054_dwi.nii.gz
+├── sub-055
+│   ├── anat
+│   │   ├── sub-055_T1w.json
+│   │   └── sub-055_T1w.nii.gz
+│   └── dwi
+│       ├── sub-055_dwi.bval
+│       ├── sub-055_dwi.bvec
+│       ├── sub-055_dwi.json
+│       └── sub-055_dwi.nii.gz
+├── sub-056
+│   ├── anat
+│   │   ├── sub-056_T1w.json
+│   │   └── sub-056_T1w.nii.gz
+│   └── dwi
+│       ├── sub-056_dwi.bval
+│       ├── sub-056_dwi.bvec
+│       ├── sub-056_dwi.json
+│       └── sub-056_dwi.nii.gz
+├── sub-057
+│   ├── anat
+│   │   ├── sub-057_T1w.json
+│   │   └── sub-057_T1w.nii.gz
+│   └── dwi
+│       ├── sub-057_dwi.bval
+│       ├── sub-057_dwi.bvec
+│       ├── sub-057_dwi.json
+│       └── sub-057_dwi.nii.gz
+├── sub-058
+│   ├── anat
+│   │   ├── sub-058_T1w.json
+│   │   └── sub-058_T1w.nii.gz
+│   └── dwi
+│       ├── sub-058_dwi.bval
+│       ├── sub-058_dwi.bvec
+│       ├── sub-058_dwi.json
+│       └── sub-058_dwi.nii.gz
+├── sub-059
+│   ├── anat
+│   │   ├── sub-059_T1w.json
+│   │   └── sub-059_T1w.nii.gz
+│   └── dwi
+│       ├── sub-059_dwi.bval
+│       ├── sub-059_dwi.bvec
+│       ├── sub-059_dwi.json
+│       └── sub-059_dwi.nii.gz
+├── sub-061
+│   ├── anat
+│   │   ├── sub-061_T1w.json
+│   │   └── sub-061_T1w.nii.gz
+│   └── dwi
+│       ├── sub-061_dwi.bval
+│       ├── sub-061_dwi.bvec
+│       ├── sub-061_dwi.json
+│       └── sub-061_dwi.nii.gz
+├── sub-062
+│   ├── anat
+│   │   ├── sub-062_T1w.json
+│   │   └── sub-062_T1w.nii.gz
+│   └── dwi
+│       ├── sub-062_dwi.bval
+│       ├── sub-062_dwi.bvec
+│       ├── sub-062_dwi.json
+│       └── sub-062_dwi.nii.gz
+├── sub-063
+│   ├── anat
+│   │   ├── sub-063_T1w.json
+│   │   └── sub-063_T1w.nii.gz
+│   └── dwi
+│       ├── sub-063_dwi.bval
+│       ├── sub-063_dwi.bvec
+│       ├── sub-063_dwi.json
+│       └── sub-063_dwi.nii.gz
+├── sub-064
+│   ├── anat
+│   │   ├── sub-064_T1w.json
+│   │   └── sub-064_T1w.nii.gz
+│   └── dwi
+│       ├── sub-064_dwi.bval
+│       ├── sub-064_dwi.bvec
+│       ├── sub-064_dwi.json
+│       └── sub-064_dwi.nii.gz
+├── sub-065
+│   ├── anat
+│   │   ├── sub-065_T1w.json
+│   │   └── sub-065_T1w.nii.gz
+│   └── dwi
+│       ├── sub-065_dwi.bval
+│       ├── sub-065_dwi.bvec
+│       ├── sub-065_dwi.json
+│       └── sub-065_dwi.nii.gz
+├── sub-066
+│   ├── anat
+│   │   ├── sub-066_T1w.json
+│   │   └── sub-066_T1w.nii.gz
+│   └── dwi
+│       ├── sub-066_dwi.bval
+│       ├── sub-066_dwi.bvec
+│       ├── sub-066_dwi.json
+│       └── sub-066_dwi.nii.gz
+├── sub-067
+│   ├── anat
+│   │   ├── sub-067_T1w.json
+│   │   └── sub-067_T1w.nii.gz
+│   └── dwi
+│       ├── sub-067_dwi.bval
+│       ├── sub-067_dwi.bvec
+│       ├── sub-067_dwi.json
+│       └── sub-067_dwi.nii.gz
+├── sub-068
+│   ├── anat
+│   │   ├── sub-068_T1w.json
+│   │   └── sub-068_T1w.nii.gz
+│   └── dwi
+│       ├── sub-068_dwi.bval
+│       ├── sub-068_dwi.bvec
+│       ├── sub-068_dwi.json
+│       └── sub-068_dwi.nii.gz
+├── sub-069
+│   ├── anat
+│   │   ├── sub-069_T1w.json
+│   │   └── sub-069_T1w.nii.gz
+│   └── dwi
+│       ├── sub-069_dwi.bval
+│       ├── sub-069_dwi.bvec
+│       ├── sub-069_dwi.json
+│       └── sub-069_dwi.nii.gz
+├── sub-070
+│   ├── anat
+│   │   ├── sub-070_T1w.json
+│   │   └── sub-070_T1w.nii.gz
+│   └── dwi
+│       ├── sub-070_dwi.bval
+│       ├── sub-070_dwi.bvec
+│       ├── sub-070_dwi.json
+│       └── sub-070_dwi.nii.gz
+├── sub-071
+│   ├── anat
+│   │   ├── sub-071_T1w.json
+│   │   └── sub-071_T1w.nii.gz
+│   └── dwi
+│       ├── sub-071_dwi.bval
+│       ├── sub-071_dwi.bvec
+│       ├── sub-071_dwi.json
+│       └── sub-071_dwi.nii.gz
+├── sub-072
+│   ├── anat
+│   │   ├── sub-072_T1w.json
+│   │   └── sub-072_T1w.nii.gz
+│   └── dwi
+│       ├── sub-072_dwi.bval
+│       ├── sub-072_dwi.bvec
+│       ├── sub-072_dwi.json
+│       └── sub-072_dwi.nii.gz
+├── sub-073
+│   ├── anat
+│   │   ├── sub-073_T1w.json
+│   │   └── sub-073_T1w.nii.gz
+│   └── dwi
+│       ├── sub-073_dwi.bval
+│       ├── sub-073_dwi.bvec
+│       ├── sub-073_dwi.json
+│       └── sub-073_dwi.nii.gz
+├── sub-074
+│   ├── anat
+│   │   ├── sub-074_T1w.json
+│   │   └── sub-074_T1w.nii.gz
+│   └── dwi
+│       ├── sub-074_dwi.bval
+│       ├── sub-074_dwi.bvec
+│       ├── sub-074_dwi.json
+│       └── sub-074_dwi.nii.gz
+├── sub-075
+│   ├── anat
+│   │   ├── sub-075_T1w.json
+│   │   └── sub-075_T1w.nii.gz
+│   └── dwi
+│       ├── sub-075_dwi.bval
+│       ├── sub-075_dwi.bvec
+│       ├── sub-075_dwi.json
+│       └── sub-075_dwi.nii.gz
+├── sub-076
+│   ├── anat
+│   │   ├── sub-076_T1w.json
+│   │   └── sub-076_T1w.nii.gz
+│   └── dwi
+│       ├── sub-076_dwi.bval
+│       ├── sub-076_dwi.bvec
+│       ├── sub-076_dwi.json
+│       └── sub-076_dwi.nii.gz
+├── sub-077
+│   ├── anat
+│   │   ├── sub-077_T1w.json
+│   │   └── sub-077_T1w.nii.gz
+│   └── dwi
+│       ├── sub-077_dwi.bval
+│       ├── sub-077_dwi.bvec
+│       ├── sub-077_dwi.json
+│       └── sub-077_dwi.nii.gz
+├── sub-078
+│   ├── anat
+│   │   ├── sub-078_T1w.json
+│   │   └── sub-078_T1w.nii.gz
+│   └── dwi
+│       ├── sub-078_dwi.bval
+│       ├── sub-078_dwi.bvec
+│       ├── sub-078_dwi.json
+│       └── sub-078_dwi.nii.gz
+├── sub-079
+│   ├── anat
+│   │   ├── sub-079_T1w.json
+│   │   └── sub-079_T1w.nii.gz
+│   └── dwi
+│       ├── sub-079_dwi.bval
+│       ├── sub-079_dwi.bvec
+│       ├── sub-079_dwi.json
+│       └── sub-079_dwi.nii.gz
+├── sub-080
+│   ├── anat
+│   │   ├── sub-080_T1w.json
+│   │   └── sub-080_T1w.nii.gz
+│   └── dwi
+│       ├── sub-080_dwi.bval
+│       ├── sub-080_dwi.bvec
+│       ├── sub-080_dwi.json
+│       └── sub-080_dwi.nii.gz
+├── sub-081
+│   ├── anat
+│   │   ├── sub-081_T1w.json
+│   │   └── sub-081_T1w.nii.gz
+│   └── dwi
+│       ├── sub-081_dwi.bval
+│       ├── sub-081_dwi.bvec
+│       ├── sub-081_dwi.json
+│       └── sub-081_dwi.nii.gz
+├── sub-082
+│   ├── anat
+│   │   ├── sub-082_T1w.json
+│   │   └── sub-082_T1w.nii.gz
+│   └── dwi
+│       ├── sub-082_dwi.bval
+│       ├── sub-082_dwi.bvec
+│       ├── sub-082_dwi.json
+│       └── sub-082_dwi.nii.gz
+├── sub-083
+│   ├── anat
+│   │   ├── sub-083_T1w.json
+│   │   └── sub-083_T1w.nii.gz
+│   └── dwi
+│       ├── sub-083_dwi.bval
+│       ├── sub-083_dwi.bvec
+│       ├── sub-083_dwi.json
+│       └── sub-083_dwi.nii.gz
+├── sub-084
+│   ├── anat
+│   │   ├── sub-084_T1w.json
+│   │   └── sub-084_T1w.nii.gz
+│   └── dwi
+│       ├── sub-084_dwi.bval
+│       ├── sub-084_dwi.bvec
+│       ├── sub-084_dwi.json
+│       └── sub-084_dwi.nii.gz
+├── sub-085
+│   ├── anat
+│   │   ├── sub-085_T1w.json
+│   │   └── sub-085_T1w.nii.gz
+│   └── dwi
+│       ├── sub-085_dwi.bval
+│       ├── sub-085_dwi.bvec
+│       ├── sub-085_dwi.json
+│       └── sub-085_dwi.nii.gz
+├── sub-086
+│   ├── anat
+│   │   ├── sub-086_T1w.json
+│   │   └── sub-086_T1w.nii.gz
+│   └── dwi
+│       ├── sub-086_dwi.bval
+│       ├── sub-086_dwi.bvec
+│       ├── sub-086_dwi.json
+│       └── sub-086_dwi.nii.gz
+├── sub-087
+│   ├── anat
+│   │   ├── sub-087_T1w.json
+│   │   └── sub-087_T1w.nii.gz
+│   └── dwi
+│       ├── sub-087_dwi.bval
+│       ├── sub-087_dwi.bvec
+│       ├── sub-087_dwi.json
+│       └── sub-087_dwi.nii.gz
+├── sub-088
+│   ├── anat
+│   │   ├── sub-088_T1w.json
+│   │   └── sub-088_T1w.nii.gz
+│   └── dwi
+│       ├── sub-088_dwi.bval
+│       ├── sub-088_dwi.bvec
+│       ├── sub-088_dwi.json
+│       └── sub-088_dwi.nii.gz
+├── sub-089
+│   ├── anat
+│   │   ├── sub-089_T1w.json
+│   │   └── sub-089_T1w.nii.gz
+│   └── dwi
+│       ├── sub-089_dwi.bval
+│       ├── sub-089_dwi.bvec
+│       ├── sub-089_dwi.json
+│       └── sub-089_dwi.nii.gz
+├── sub-090
+│   ├── anat
+│   │   ├── sub-090_T1w.json
+│   │   └── sub-090_T1w.nii.gz
+│   └── dwi
+│       ├── sub-090_dwi.bval
+│       ├── sub-090_dwi.bvec
+│       ├── sub-090_dwi.json
+│       └── sub-090_dwi.nii.gz
+├── sub-091
+│   ├── anat
+│   │   ├── sub-091_T1w.json
+│   │   └── sub-091_T1w.nii.gz
+│   └── dwi
+│       ├── sub-091_dwi.bval
+│       ├── sub-091_dwi.bvec
+│       ├── sub-091_dwi.json
+│       └── sub-091_dwi.nii.gz
+├── sub-092
+│   ├── anat
+│   │   ├── sub-092_T1w.json
+│   │   └── sub-092_T1w.nii.gz
+│   └── dwi
+│       ├── sub-092_dwi.bval
+│       ├── sub-092_dwi.bvec
+│       ├── sub-092_dwi.json
+│       └── sub-092_dwi.nii.gz
+├── sub-093
+│   ├── anat
+│   │   ├── sub-093_T1w.json
+│   │   └── sub-093_T1w.nii.gz
+│   └── dwi
+│       ├── sub-093_dwi.bval
+│       ├── sub-093_dwi.bvec
+│       ├── sub-093_dwi.json
+│       └── sub-093_dwi.nii.gz
+├── sub-094
+│   ├── anat
+│   │   ├── sub-094_T1w.json
+│   │   └── sub-094_T1w.nii.gz
+│   └── dwi
+│       ├── sub-094_dwi.bval
+│       ├── sub-094_dwi.bvec
+│       ├── sub-094_dwi.json
+│       └── sub-094_dwi.nii.gz
+├── sub-095
+│   ├── anat
+│   │   ├── sub-095_T1w.json
+│   │   └── sub-095_T1w.nii.gz
+│   └── dwi
+│       ├── sub-095_dwi.bval
+│       ├── sub-095_dwi.bvec
+│       ├── sub-095_dwi.json
+│       └── sub-095_dwi.nii.gz
+├── sub-096
+│   ├── anat
+│   │   ├── sub-096_T1w.json
+│   │   └── sub-096_T1w.nii.gz
+│   └── dwi
+│       ├── sub-096_dwi.bval
+│       ├── sub-096_dwi.bvec
+│       ├── sub-096_dwi.json
+│       └── sub-096_dwi.nii.gz
+├── sub-097
+│   ├── anat
+│   │   ├── sub-097_T1w.json
+│   │   └── sub-097_T1w.nii.gz
+│   └── dwi
+│       ├── sub-097_dwi.bval
+│       ├── sub-097_dwi.bvec
+│       ├── sub-097_dwi.json
+│       └── sub-097_dwi.nii.gz
+├── sub-098
+│   ├── anat
+│   │   ├── sub-098_T1w.json
+│   │   └── sub-098_T1w.nii.gz
+│   └── dwi
+│       ├── sub-098_dwi.bval
+│       ├── sub-098_dwi.bvec
+│       ├── sub-098_dwi.json
+│       └── sub-098_dwi.nii.gz
+├── sub-099
+│   ├── anat
+│   │   ├── sub-099_T1w.json
+│   │   └── sub-099_T1w.nii.gz
+│   └── dwi
+│       ├── sub-099_dwi.bval
+│       ├── sub-099_dwi.bvec
+│       ├── sub-099_dwi.json
+│       └── sub-099_dwi.nii.gz
+├── sub-100
+│   ├── anat
+│   │   ├── sub-100_T1w.json
+│   │   └── sub-100_T1w.nii.gz
+│   └── dwi
+│       ├── sub-100_dwi.bval
+│       ├── sub-100_dwi.bvec
+│       ├── sub-100_dwi.json
+│       └── sub-100_dwi.nii.gz
+├── sub-101
+│   ├── anat
+│   │   ├── sub-101_T1w.json
+│   │   └── sub-101_T1w.nii.gz
+│   └── dwi
+│       ├── sub-101_dwi.bval
+│       ├── sub-101_dwi.bvec
+│       ├── sub-101_dwi.json
+│       └── sub-101_dwi.nii.gz
+├── sub-102
+│   ├── anat
+│   │   ├── sub-102_T1w.json
+│   │   └── sub-102_T1w.nii.gz
+│   └── dwi
+│       ├── sub-102_dwi.bval
+│       ├── sub-102_dwi.bvec
+│       ├── sub-102_dwi.json
+│       └── sub-102_dwi.nii.gz
+├── sub-103
+│   ├── anat
+│   │   ├── sub-103_T1w.json
+│   │   └── sub-103_T1w.nii.gz
+│   └── dwi
+│       ├── sub-103_dwi.bval
+│       ├── sub-103_dwi.bvec
+│       ├── sub-103_dwi.json
+│       └── sub-103_dwi.nii.gz
+├── sub-104
+│   ├── anat
+│   │   ├── sub-104_T1w.json
+│   │   └── sub-104_T1w.nii.gz
+│   └── dwi
+│       ├── sub-104_dwi.bval
+│       ├── sub-104_dwi.bvec
+│       ├── sub-104_dwi.json
+│       └── sub-104_dwi.nii.gz
+├── sub-105
+│   ├── anat
+│   │   ├── sub-105_T1w.json
+│   │   └── sub-105_T1w.nii.gz
+│   └── dwi
+│       ├── sub-105_dwi.bval
+│       ├── sub-105_dwi.bvec
+│       ├── sub-105_dwi.json
+│       └── sub-105_dwi.nii.gz
+├── sub-106
+│   ├── anat
+│   │   ├── sub-106_T1w.json
+│   │   └── sub-106_T1w.nii.gz
+│   └── dwi
+│       ├── sub-106_dwi.bval
+│       ├── sub-106_dwi.bvec
+│       ├── sub-106_dwi.json
+│       └── sub-106_dwi.nii.gz
+├── sub-107
+│   ├── anat
+│   │   ├── sub-107_T1w.json
+│   │   └── sub-107_T1w.nii.gz
+│   └── dwi
+│       ├── sub-107_dwi.bval
+│       ├── sub-107_dwi.bvec
+│       ├── sub-107_dwi.json
+│       └── sub-107_dwi.nii.gz
+├── sub-108
+│   ├── anat
+│   │   ├── sub-108_T1w.json
+│   │   └── sub-108_T1w.nii.gz
+│   └── dwi
+│       ├── sub-108_dwi.bval
+│       ├── sub-108_dwi.bvec
+│       ├── sub-108_dwi.json
+│       └── sub-108_dwi.nii.gz
+├── sub-109
+│   ├── anat
+│   │   ├── sub-109_T1w.json
+│   │   └── sub-109_T1w.nii.gz
+│   └── dwi
+│       ├── sub-109_dwi.bval
+│       ├── sub-109_dwi.bvec
+│       ├── sub-109_dwi.json
+│       └── sub-109_dwi.nii.gz
+├── sub-110
+│   ├── anat
+│   │   ├── sub-110_T1w.json
+│   │   └── sub-110_T1w.nii.gz
+│   └── dwi
+│       ├── sub-110_dwi.bval
+│       ├── sub-110_dwi.bvec
+│       ├── sub-110_dwi.json
+│       └── sub-110_dwi.nii.gz
+├── sub-111
+│   ├── anat
+│   │   ├── sub-111_T1w.json
+│   │   └── sub-111_T1w.nii.gz
+│   └── dwi
+│       ├── sub-111_dwi.bval
+│       ├── sub-111_dwi.bvec
+│       ├── sub-111_dwi.json
+│       └── sub-111_dwi.nii.gz
+├── sub-112
+│   ├── anat
+│   │   ├── sub-112_T1w.json
+│   │   └── sub-112_T1w.nii.gz
+│   └── dwi
+│       ├── sub-112_dwi.bval
+│       ├── sub-112_dwi.bvec
+│       ├── sub-112_dwi.json
+│       └── sub-112_dwi.nii.gz
+├── sub-113
+│   ├── anat
+│   │   ├── sub-113_T1w.json
+│   │   └── sub-113_T1w.nii.gz
+│   └── dwi
+│       ├── sub-113_dwi.bval
+│       ├── sub-113_dwi.bvec
+│       ├── sub-113_dwi.json
+│       └── sub-113_dwi.nii.gz
+├── sub-114
+│   ├── anat
+│   │   ├── sub-114_T1w.json
+│   │   └── sub-114_T1w.nii.gz
+│   └── dwi
+│       ├── sub-114_dwi.bval
+│       ├── sub-114_dwi.bvec
+│       ├── sub-114_dwi.json
+│       └── sub-114_dwi.nii.gz
+├── sub-115
+│   ├── anat
+│   │   ├── sub-115_T1w.json
+│   │   └── sub-115_T1w.nii.gz
+│   └── dwi
+│       ├── sub-115_dwi.bval
+│       ├── sub-115_dwi.bvec
+│       ├── sub-115_dwi.json
+│       └── sub-115_dwi.nii.gz
+├── sub-116
+│   ├── anat
+│   │   ├── sub-116_T1w.json
+│   │   └── sub-116_T1w.nii.gz
+│   └── dwi
+│       ├── sub-116_dwi.bval
+│       ├── sub-116_dwi.bvec
+│       ├── sub-116_dwi.json
+│       └── sub-116_dwi.nii.gz
+├── sub-117
+│   ├── anat
+│   │   ├── sub-117_T1w.json
+│   │   └── sub-117_T1w.nii.gz
+│   └── dwi
+│       ├── sub-117_dwi.bval
+│       ├── sub-117_dwi.bvec
+│       ├── sub-117_dwi.json
+│       └── sub-117_dwi.nii.gz
+├── sub-118
+│   ├── anat
+│   │   ├── sub-118_T1w.json
+│   │   └── sub-118_T1w.nii.gz
+│   └── dwi
+│       ├── sub-118_dwi.bval
+│       ├── sub-118_dwi.bvec
+│       ├── sub-118_dwi.json
+│       └── sub-118_dwi.nii.gz
+├── sub-119
+│   ├── anat
+│   │   ├── sub-119_T1w.json
+│   │   └── sub-119_T1w.nii.gz
+│   └── dwi
+│       ├── sub-119_dwi.bval
+│       ├── sub-119_dwi.bvec
+│       ├── sub-119_dwi.json
+│       └── sub-119_dwi.nii.gz
+├── sub-120
+│   ├── anat
+│   │   ├── sub-120_T1w.json
+│   │   └── sub-120_T1w.nii.gz
+│   └── dwi
+│       ├── sub-120_dwi.bval
+│       ├── sub-120_dwi.bvec
+│       ├── sub-120_dwi.json
+│       └── sub-120_dwi.nii.gz
+├── sub-121
+│   ├── anat
+│   │   ├── sub-121_T1w.json
+│   │   └── sub-121_T1w.nii.gz
+│   └── dwi
+│       ├── sub-121_dwi.bval
+│       ├── sub-121_dwi.bvec
+│       ├── sub-121_dwi.json
+│       └── sub-121_dwi.nii.gz
+├── sub-122
+│   ├── anat
+│   │   ├── sub-122_T1w.json
+│   │   └── sub-122_T1w.nii.gz
+│   └── dwi
+│       ├── sub-122_dwi.bval
+│       ├── sub-122_dwi.bvec
+│       ├── sub-122_dwi.json
+│       └── sub-122_dwi.nii.gz
+├── sub-123
+│   ├── anat
+│   │   ├── sub-123_T1w.json
+│   │   └── sub-123_T1w.nii.gz
+│   └── dwi
+│       ├── sub-123_dwi.bval
+│       ├── sub-123_dwi.bvec
+│       ├── sub-123_dwi.json
+│       └── sub-123_dwi.nii.gz
+├── sub-124
+│   ├── anat
+│   │   ├── sub-124_T1w.json
+│   │   └── sub-124_T1w.nii.gz
+│   └── dwi
+│       ├── sub-124_dwi.bval
+│       ├── sub-124_dwi.bvec
+│       ├── sub-124_dwi.json
+│       └── sub-124_dwi.nii.gz
+├── sub-125
+│   ├── anat
+│   │   ├── sub-125_T1w.json
+│   │   └── sub-125_T1w.nii.gz
+│   └── dwi
+│       ├── sub-125_dwi.bval
+│       ├── sub-125_dwi.bvec
+│       ├── sub-125_dwi.json
+│       └── sub-125_dwi.nii.gz
+├── sub-126
+│   ├── anat
+│   │   ├── sub-126_T1w.json
+│   │   └── sub-126_T1w.nii.gz
+│   └── dwi
+│       ├── sub-126_dwi.bval
+│       ├── sub-126_dwi.bvec
+│       ├── sub-126_dwi.json
+│       └── sub-126_dwi.nii.gz
+├── sub-127
+│   ├── anat
+│   │   ├── sub-127_T1w.json
+│   │   └── sub-127_T1w.nii.gz
+│   └── dwi
+│       ├── sub-127_dwi.bval
+│       ├── sub-127_dwi.bvec
+│       ├── sub-127_dwi.json
+│       └── sub-127_dwi.nii.gz
+├── sub-128
+│   ├── anat
+│   │   ├── sub-128_T1w.json
+│   │   └── sub-128_T1w.nii.gz
+│   └── dwi
+│       ├── sub-128_dwi.bval
+│       ├── sub-128_dwi.bvec
+│       ├── sub-128_dwi.json
+│       └── sub-128_dwi.nii.gz
+├── sub-129
+│   ├── anat
+│   │   ├── sub-129_T1w.json
+│   │   └── sub-129_T1w.nii.gz
+│   └── dwi
+│       ├── sub-129_dwi.bval
+│       ├── sub-129_dwi.bvec
+│       ├── sub-129_dwi.json
+│       └── sub-129_dwi.nii.gz
+├── sub-130
+│   ├── anat
+│   │   ├── sub-130_T1w.json
+│   │   └── sub-130_T1w.nii.gz
+│   └── dwi
+│       ├── sub-130_dwi.bval
+│       ├── sub-130_dwi.bvec
+│       ├── sub-130_dwi.json
+│       └── sub-130_dwi.nii.gz
+├── sub-131
+│   ├── anat
+│   │   ├── sub-131_T1w.json
+│   │   └── sub-131_T1w.nii.gz
+│   └── dwi
+│       ├── sub-131_dwi.bval
+│       ├── sub-131_dwi.bvec
+│       ├── sub-131_dwi.json
+│       └── sub-131_dwi.nii.gz
+├── sub-132
+│   ├── anat
+│   │   ├── sub-132_T1w.json
+│   │   └── sub-132_T1w.nii.gz
+│   └── dwi
+│       ├── sub-132_dwi.bval
+│       ├── sub-132_dwi.bvec
+│       ├── sub-132_dwi.json
+│       └── sub-132_dwi.nii.gz
+├── sub-133
+│   ├── anat
+│   │   ├── sub-133_T1w.json
+│   │   └── sub-133_T1w.nii.gz
+│   └── dwi
+│       ├── sub-133_dwi.bval
+│       ├── sub-133_dwi.bvec
+│       ├── sub-133_dwi.json
+│       └── sub-133_dwi.nii.gz
+├── sub-134
+│   ├── anat
+│   │   ├── sub-134_T1w.json
+│   │   └── sub-134_T1w.nii.gz
+│   └── dwi
+│       ├── sub-134_dwi.bval
+│       ├── sub-134_dwi.bvec
+│       ├── sub-134_dwi.json
+│       └── sub-134_dwi.nii.gz
+├── sub-135
+│   ├── anat
+│   │   ├── sub-135_T1w.json
+│   │   └── sub-135_T1w.nii.gz
+│   └── dwi
+│       ├── sub-135_dwi.bval
+│       ├── sub-135_dwi.bvec
+│       ├── sub-135_dwi.json
+│       └── sub-135_dwi.nii.gz
+├── sub-136
+│   ├── anat
+│   │   ├── sub-136_T1w.json
+│   │   └── sub-136_T1w.nii.gz
+│   └── dwi
+│       ├── sub-136_dwi.bval
+│       ├── sub-136_dwi.bvec
+│       ├── sub-136_dwi.json
+│       └── sub-136_dwi.nii.gz
+├── sub-137
+│   ├── anat
+│   │   ├── sub-137_T1w.json
+│   │   └── sub-137_T1w.nii.gz
+│   └── dwi
+│       ├── sub-137_dwi.bval
+│       ├── sub-137_dwi.bvec
+│       ├── sub-137_dwi.json
+│       └── sub-137_dwi.nii.gz
+├── sub-138
+│   ├── anat
+│   │   ├── sub-138_T1w.json
+│   │   └── sub-138_T1w.nii.gz
+│   └── dwi
+│       ├── sub-138_dwi.bval
+│       ├── sub-138_dwi.bvec
+│       ├── sub-138_dwi.json
+│       └── sub-138_dwi.nii.gz
+├── sub-139
+│   ├── anat
+│   │   ├── sub-139_T1w.json
+│   │   └── sub-139_T1w.nii.gz
+│   └── dwi
+│       ├── sub-139_dwi.bval
+│       ├── sub-139_dwi.bvec
+│       ├── sub-139_dwi.json
+│       └── sub-139_dwi.nii.gz
+├── sub-140
+│   ├── anat
+│   │   ├── sub-140_T1w.json
+│   │   └── sub-140_T1w.nii.gz
+│   └── dwi
+│       ├── sub-140_dwi.bval
+│       ├── sub-140_dwi.bvec
+│       ├── sub-140_dwi.json
+│       └── sub-140_dwi.nii.gz
+├── sub-141
+│   ├── anat
+│   │   ├── sub-141_T1w.json
+│   │   └── sub-141_T1w.nii.gz
+│   └── dwi
+│       ├── sub-141_dwi.bval
+│       ├── sub-141_dwi.bvec
+│       ├── sub-141_dwi.json
+│       └── sub-141_dwi.nii.gz
+├── sub-142
+│   ├── anat
+│   │   ├── sub-142_T1w.json
+│   │   └── sub-142_T1w.nii.gz
+│   └── dwi
+│       ├── sub-142_dwi.bval
+│       ├── sub-142_dwi.bvec
+│       ├── sub-142_dwi.json
+│       └── sub-142_dwi.nii.gz
+├── sub-143
+│   ├── anat
+│   │   ├── sub-143_T1w.json
+│   │   └── sub-143_T1w.nii.gz
+│   └── dwi
+│       ├── sub-143_dwi.bval
+│       ├── sub-143_dwi.bvec
+│       ├── sub-143_dwi.json
+│       └── sub-143_dwi.nii.gz
+├── sub-144
+│   ├── anat
+│   │   ├── sub-144_T1w.json
+│   │   └── sub-144_T1w.nii.gz
+│   └── dwi
+│       ├── sub-144_dwi.bval
+│       ├── sub-144_dwi.bvec
+│       ├── sub-144_dwi.json
+│       └── sub-144_dwi.nii.gz
+├── sub-145
+│   ├── anat
+│   │   ├── sub-145_T1w.json
+│   │   └── sub-145_T1w.nii.gz
+│   └── dwi
+│       ├── sub-145_dwi.bval
+│       ├── sub-145_dwi.bvec
+│       ├── sub-145_dwi.json
+│       └── sub-145_dwi.nii.gz
+├── sub-146
+│   ├── anat
+│   │   ├── sub-146_T1w.json
+│   │   └── sub-146_T1w.nii.gz
+│   └── dwi
+│       ├── sub-146_dwi.bval
+│       ├── sub-146_dwi.bvec
+│       ├── sub-146_dwi.json
+│       └── sub-146_dwi.nii.gz
+├── sub-147
+│   ├── anat
+│   │   ├── sub-147_T1w.json
+│   │   └── sub-147_T1w.nii.gz
+│   └── dwi
+│       ├── sub-147_dwi.bval
+│       ├── sub-147_dwi.bvec
+│       ├── sub-147_dwi.json
+│       └── sub-147_dwi.nii.gz
+├── sub-148
+│   ├── anat
+│   │   ├── sub-148_T1w.json
+│   │   └── sub-148_T1w.nii.gz
+│   └── dwi
+│       ├── sub-148_dwi.bval
+│       ├── sub-148_dwi.bvec
+│       ├── sub-148_dwi.json
+│       └── sub-148_dwi.nii.gz
+├── sub-149
+│   ├── anat
+│   │   ├── sub-149_T1w.json
+│   │   └── sub-149_T1w.nii.gz
+│   └── dwi
+│       ├── sub-149_dwi.bval
+│       ├── sub-149_dwi.bvec
+│       ├── sub-149_dwi.json
+│       └── sub-149_dwi.nii.gz
+├── sub-150
+│   ├── anat
+│   │   ├── sub-150_T1w.json
+│   │   └── sub-150_T1w.nii.gz
+│   └── dwi
+│       ├── sub-150_dwi.bval
+│       ├── sub-150_dwi.bvec
+│       ├── sub-150_dwi.json
+│       └── sub-150_dwi.nii.gz
+├── sub-151
+│   ├── anat
+│   │   ├── sub-151_T1w.json
+│   │   └── sub-151_T1w.nii.gz
+│   └── dwi
+│       ├── sub-151_dwi.bval
+│       ├── sub-151_dwi.bvec
+│       ├── sub-151_dwi.json
+│       └── sub-151_dwi.nii.gz
+├── sub-152
+│   ├── anat
+│   │   ├── sub-152_T1w.json
+│   │   └── sub-152_T1w.nii.gz
+│   └── dwi
+│       ├── sub-152_dwi.bval
+│       ├── sub-152_dwi.bvec
+│       ├── sub-152_dwi.json
+│       └── sub-152_dwi.nii.gz
+├── sub-153
+│   ├── anat
+│   │   ├── sub-153_T1w.json
+│   │   └── sub-153_T1w.nii.gz
+│   └── dwi
+│       ├── sub-153_dwi.bval
+│       ├── sub-153_dwi.bvec
+│       ├── sub-153_dwi.json
+│       └── sub-153_dwi.nii.gz
+├── sub-154
+│   ├── anat
+│   │   ├── sub-154_T1w.json
+│   │   └── sub-154_T1w.nii.gz
+│   └── dwi
+│       ├── sub-154_dwi.bval
+│       ├── sub-154_dwi.bvec
+│       ├── sub-154_dwi.json
+│       └── sub-154_dwi.nii.gz
+├── sub-155
+│   ├── anat
+│   │   ├── sub-155_T1w.json
+│   │   └── sub-155_T1w.nii.gz
+│   └── dwi
+│       ├── sub-155_dwi.bval
+│       ├── sub-155_dwi.bvec
+│       ├── sub-155_dwi.json
+│       └── sub-155_dwi.nii.gz
+├── sub-156
+│   ├── anat
+│   │   ├── sub-156_T1w.json
+│   │   └── sub-156_T1w.nii.gz
+│   └── dwi
+│       ├── sub-156_dwi.bval
+│       ├── sub-156_dwi.bvec
+│       ├── sub-156_dwi.json
+│       └── sub-156_dwi.nii.gz
+├── sub-157
+│   ├── anat
+│   │   ├── sub-157_T1w.json
+│   │   └── sub-157_T1w.nii.gz
+│   └── dwi
+│       ├── sub-157_dwi.bval
+│       ├── sub-157_dwi.bvec
+│       ├── sub-157_dwi.json
+│       └── sub-157_dwi.nii.gz
+├── sub-158
+│   ├── anat
+│   │   ├── sub-158_T1w.json
+│   │   └── sub-158_T1w.nii.gz
+│   └── dwi
+│       ├── sub-158_dwi.bval
+│       ├── sub-158_dwi.bvec
+│       ├── sub-158_dwi.json
+│       └── sub-158_dwi.nii.gz
+├── sub-159
+│   ├── anat
+│   │   ├── sub-159_T1w.json
+│   │   └── sub-159_T1w.nii.gz
+│   └── dwi
+│       ├── sub-159_dwi.bval
+│       ├── sub-159_dwi.bvec
+│       ├── sub-159_dwi.json
+│       └── sub-159_dwi.nii.gz
+├── sub-160
+│   ├── anat
+│   │   ├── sub-160_T1w.json
+│   │   └── sub-160_T1w.nii.gz
+│   └── dwi
+│       ├── sub-160_dwi.bval
+│       ├── sub-160_dwi.bvec
+│       ├── sub-160_dwi.json
+│       └── sub-160_dwi.nii.gz
+├── sub-161
+│   ├── anat
+│   │   ├── sub-161_T1w.json
+│   │   └── sub-161_T1w.nii.gz
+│   └── dwi
+│       ├── sub-161_dwi.bval
+│       ├── sub-161_dwi.bvec
+│       ├── sub-161_dwi.json
+│       └── sub-161_dwi.nii.gz
+├── sub-162
+│   ├── anat
+│   │   ├── sub-162_T1w.json
+│   │   └── sub-162_T1w.nii.gz
+│   └── dwi
+│       ├── sub-162_dwi.bval
+│       ├── sub-162_dwi.bvec
+│       ├── sub-162_dwi.json
+│       └── sub-162_dwi.nii.gz
+├── sub-163
+│   ├── anat
+│   │   ├── sub-163_T1w.json
+│   │   └── sub-163_T1w.nii.gz
+│   └── dwi
+│       ├── sub-163_dwi.bval
+│       ├── sub-163_dwi.bvec
+│       ├── sub-163_dwi.json
+│       └── sub-163_dwi.nii.gz
+├── sub-164
+│   ├── anat
+│   │   ├── sub-164_T1w.json
+│   │   └── sub-164_T1w.nii.gz
+│   └── dwi
+│       ├── sub-164_dwi.bval
+│       ├── sub-164_dwi.bvec
+│       ├── sub-164_dwi.json
+│       └── sub-164_dwi.nii.gz
+├── sub-165
+│   ├── anat
+│   │   ├── sub-165_T1w.json
+│   │   └── sub-165_T1w.nii.gz
+│   └── dwi
+│       ├── sub-165_dwi.bval
+│       ├── sub-165_dwi.bvec
+│       ├── sub-165_dwi.json
+│       └── sub-165_dwi.nii.gz
+├── sub-166
+│   ├── anat
+│   │   ├── sub-166_T1w.json
+│   │   └── sub-166_T1w.nii.gz
+│   └── dwi
+│       ├── sub-166_dwi.bval
+│       ├── sub-166_dwi.bvec
+│       ├── sub-166_dwi.json
+│       └── sub-166_dwi.nii.gz
+├── sub-167
+│   ├── anat
+│   │   ├── sub-167_T1w.json
+│   │   └── sub-167_T1w.nii.gz
+│   └── dwi
+│       ├── sub-167_dwi.bval
+│       ├── sub-167_dwi.bvec
+│       ├── sub-167_dwi.json
+│       └── sub-167_dwi.nii.gz
+├── sub-168
+│   ├── anat
+│   │   ├── sub-168_T1w.json
+│   │   └── sub-168_T1w.nii.gz
+│   └── dwi
+│       ├── sub-168_dwi.bval
+│       ├── sub-168_dwi.bvec
+│       ├── sub-168_dwi.json
+│       └── sub-168_dwi.nii.gz
+├── sub-169
+│   ├── anat
+│   │   ├── sub-169_T1w.json
+│   │   └── sub-169_T1w.nii.gz
+│   └── dwi
+│       ├── sub-169_dwi.bval
+│       ├── sub-169_dwi.bvec
+│       ├── sub-169_dwi.json
+│       └── sub-169_dwi.nii.gz
+├── sub-170
+│   ├── anat
+│   │   ├── sub-170_T1w.json
+│   │   └── sub-170_T1w.nii.gz
+│   └── dwi
+│       ├── sub-170_dwi.bval
+│       ├── sub-170_dwi.bvec
+│       ├── sub-170_dwi.json
+│       └── sub-170_dwi.nii.gz
+├── sub-171
+│   ├── anat
+│   │   ├── sub-171_T1w.json
+│   │   └── sub-171_T1w.nii.gz
+│   └── dwi
+│       ├── sub-171_dwi.bval
+│       ├── sub-171_dwi.bvec
+│       ├── sub-171_dwi.json
+│       └── sub-171_dwi.nii.gz
+├── sub-172
+│   ├── anat
+│   │   ├── sub-172_T1w.json
+│   │   └── sub-172_T1w.nii.gz
+│   └── dwi
+│       ├── sub-172_dwi.bval
+│       ├── sub-172_dwi.bvec
+│       ├── sub-172_dwi.json
+│       └── sub-172_dwi.nii.gz
+├── sub-173
+│   ├── anat
+│   │   ├── sub-173_T1w.json
+│   │   └── sub-173_T1w.nii.gz
+│   └── dwi
+│       ├── sub-173_dwi.bval
+│       ├── sub-173_dwi.bvec
+│       ├── sub-173_dwi.json
+│       └── sub-173_dwi.nii.gz
+├── sub-174
+│   ├── anat
+│   │   ├── sub-174_T1w.json
+│   │   └── sub-174_T1w.nii.gz
+│   └── dwi
+│       ├── sub-174_dwi.bval
+│       ├── sub-174_dwi.bvec
+│       ├── sub-174_dwi.json
+│       └── sub-174_dwi.nii.gz
+├── sub-175
+│   ├── anat
+│   │   ├── sub-175_T1w.json
+│   │   └── sub-175_T1w.nii.gz
+│   └── dwi
+│       ├── sub-175_dwi.bval
+│       ├── sub-175_dwi.bvec
+│       ├── sub-175_dwi.json
+│       └── sub-175_dwi.nii.gz
+├── sub-176
+│   ├── anat
+│   │   ├── sub-176_T1w.json
+│   │   └── sub-176_T1w.nii.gz
+│   └── dwi
+│       ├── sub-176_dwi.bval
+│       ├── sub-176_dwi.bvec
+│       ├── sub-176_dwi.json
+│       └── sub-176_dwi.nii.gz
+├── sub-177
+│   ├── anat
+│   │   ├── sub-177_T1w.json
+│   │   └── sub-177_T1w.nii.gz
+│   └── dwi
+│       ├── sub-177_dwi.bval
+│       ├── sub-177_dwi.bvec
+│       ├── sub-177_dwi.json
+│       └── sub-177_dwi.nii.gz
+├── sub-178
+│   ├── anat
+│   │   ├── sub-178_T1w.json
+│   │   └── sub-178_T1w.nii.gz
+│   └── dwi
+│       ├── sub-178_dwi.bval
+│       ├── sub-178_dwi.bvec
+│       ├── sub-178_dwi.json
+│       └── sub-178_dwi.nii.gz
+├── sub-179
+│   ├── anat
+│   │   ├── sub-179_T1w.json
+│   │   └── sub-179_T1w.nii.gz
+│   └── dwi
+│       ├── sub-179_dwi.bval
+│       ├── sub-179_dwi.bvec
+│       ├── sub-179_dwi.json
+│       └── sub-179_dwi.nii.gz
+├── sub-180
+│   ├── anat
+│   │   ├── sub-180_T1w.json
+│   │   └── sub-180_T1w.nii.gz
+│   └── dwi
+│       ├── sub-180_dwi.bval
+│       ├── sub-180_dwi.bvec
+│       ├── sub-180_dwi.json
+│       └── sub-180_dwi.nii.gz
+├── sub-181
+│   ├── anat
+│   │   ├── sub-181_T1w.json
+│   │   └── sub-181_T1w.nii.gz
+│   └── dwi
+│       ├── sub-181_dwi.bval
+│       ├── sub-181_dwi.bvec
+│       ├── sub-181_dwi.json
+│       └── sub-181_dwi.nii.gz
+├── sub-182
+│   ├── anat
+│   │   ├── sub-182_T1w.json
+│   │   └── sub-182_T1w.nii.gz
+│   └── dwi
+│       ├── sub-182_dwi.bval
+│       ├── sub-182_dwi.bvec
+│       ├── sub-182_dwi.json
+│       └── sub-182_dwi.nii.gz
+├── sub-183
+│   ├── anat
+│   │   ├── sub-183_T1w.json
+│   │   └── sub-183_T1w.nii.gz
+│   └── dwi
+│       ├── sub-183_dwi.bval
+│       ├── sub-183_dwi.bvec
+│       ├── sub-183_dwi.json
+│       └── sub-183_dwi.nii.gz
+├── sub-184
+│   ├── anat
+│   │   ├── sub-184_T1w.json
+│   │   └── sub-184_T1w.nii.gz
+│   └── dwi
+│       ├── sub-184_dwi.bval
+│       ├── sub-184_dwi.bvec
+│       ├── sub-184_dwi.json
+│       └── sub-184_dwi.nii.gz
+└── sub-185
+    ├── anat
+    │   ├── sub-185_T1w.json
+    │   └── sub-185_T1w.nii.gz
+    └── dwi
+        ├── sub-185_dwi.bval
+        ├── sub-185_dwi.bvec
+        ├── sub-185_dwi.json
+        └── sub-185_dwi.nii.gz
+
+553 directories, 1106 files

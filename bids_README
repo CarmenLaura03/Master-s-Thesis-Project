@@ -1,0 +1,7 @@
+This BIDS-formatted dataset contains T1-weighted anatomical and diffusion-weighted imaging (DWI) data from Alzheimer's Disease Neuroimaging Initiative (ADNI2). The original DICOM files were donwloaded from https://adni.loni.usc.edu/ and converted to NIfTI format using dcm2niix.
+
+This dataset was curated by Carmen Laura Frias Pérez as part of the master's thesis project Diffusion Tensor Imaging and Cognition Analysis in Alzheimer's Disease (2025).
+
+All data remain under the ADNI data usage agreement, detailed in https://adni.loni.usc.edu/
+
+Conversion tool: dcm2niix v1.0.20241211
