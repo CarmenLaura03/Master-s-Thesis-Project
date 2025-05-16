@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Path to the FastSurfer directory
-fastsurfer_path="/home/carmen-laura/Descargas/FastSurfer"
+fastsurfer_path="/home/carmen-laura/Downloads/FastSurfer"
 
 # Path to the FreeSurfer license file
-fs_license="/home/carmen-laura/Descargas/freesurfer/license.txt"
+fs_license="/home/carmen-laura/Downloads/freesurfer/license.txt"
 
 # Mapping region IDs to anatomical region names from DKTatlas+aseg.orig.mgz
 declare -A region_names=([2]="Left-Cerebral-White-Matter" [4]="Left-Lateral-Ventricle" [5]="Left-Inf-Lat-Vent" [7]="Left-Cerebellum-White-Matter" [8]="Left-Cerebellum-Cortex" [10]="Left-Thalamus" [11]="Left-Caudate" [12]="Left-Putamen" [13]="Left-Pallidum" [14]="3rd-Ventricle" [15]="4th-Ventricle" [16]="Brain-Stem" [17]="Left-Hippocampus" [18]="Left-Amygdala" [24]="CSF" [26]="Left-Accumbens-area" [28]="Left-VentralDC" [31]="Left-choroid-plexus" [41]="Right-Cerebral-White-Matter" [43]="Right-Lateral-Ventricle" [44]="Right-Inf-Lat-Vent" [46]="Right-Cerebellum-White-Matter" [47]="Right-Cerebellum-Cortex" [49]="Right-Thalamus" [50]="Right-Caudate" [51]="Right-Putamen" [52]="Right-Pallidum" [53]="Right-Hippocampus" [54]="Right-Amygdala" [58]="Right-Accumbens-area" [60]="Right-VentralDC" [63]="Right-choroid-plexus"
@@ -17,7 +17,7 @@ declare -A region_names=([2]="Left-Cerebral-White-Matter" [4]="Left-Lateral-Vent
 regions=(2 4 5 7 8 10 11 12 13 14 15 16 17 18 24 26 28 31 41 43 44 46 47 49 50 51 52 53 54 58 60 63 77 1002 1003 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030 1031 1034 1035 2002 2003 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 2027 2028 2029 2030 2031 2034 2035)
 
 # Path to the DSI Studio directory
-dsi_studio="/home/carmen-laura/Descargas/dsi_studio_ubuntu2404/dsi-studio/dsi_studio"
+dsi_studio="/home/carmen-laura/Downloads/dsi_studio_ubuntu2404/dsi-studio/dsi_studio"
 
 # Path for the results CSV file where volume and DTI-metrics for each brain region are being stored for each subject
 volume_metrics_results="/home/carmen-laura/volume_metrics_results.csv"
@@ -42,19 +42,16 @@ for dir in /home/carmen-laura/project/*; do
 
   # Brain segmentation
 
-  	# Convert DICOM files for T1-weighted images Sag IR-SPGR to NIfTI
-	dcm2niix -o "$dir" -f "IR_SPGR" "$dir/Sag_IR-SPGR"
-
-	# Extract the subject ID from the directory name
+  	# Extract the subject ID from the directory name
 	subject_id=$(basename "$dir")
   
   	# FastSurfer implementation
 
 		# Run FastSurfer for automated brain segmentation
 		$fastsurfer_path/run_fastsurfer.sh \
-		  --t1 "$dir/IR_SPGR.nii" \
-		  --sid  "subject_$subject_id" \
-		  --sd "$dir" \
+		  --t1 "$dir/anat/${subject_id}_T1w.nii.gz" \
+		  --sid  "$subject_id" \
+		  --sd "$dir/anat" \
 		  --batch 4 \
 		  --threads 4 \
 		  --3T \
@@ -62,64 +59,63 @@ for dir in /home/carmen-laura/project/*; do
   
   # DTI preprocessing
 
-	# Convert DICOM files for DTI Axial_DTI images to NIfTI
-	dcm2niix -o "$dir" -f "DTI" "$dir/Axial_DTI"
-	
 	# Perform brain skipping/extraction of DTI images 
-	bet "$dir/DTI".nii "$dir/DTI_bet.nii" -m
+	bet "$dir/dwi/${subject_id}_dwi.nii.gz" "$dir/dwi/${subject_id}_dwi_bet.nii" -m
      	
      	# Perform eddy current correction for motion and distortions in DTI images
      	
        		# Definition of inds.txt
        		
 		# Extraction of the number of columns in bvec files
-		cols=$(awk '{print NF}' "$dir/DTI.bvec" | head -n 1)
+		cols=$(awk '{print NF}' "$dir/dwi/${subject_id}_dwi.bvec" | head -n 1)
 		inds=()
 		# Loop to generate indices according to the number of columns in bvec files
 		for ((i=1; i<=$cols;i++)); do inds+=("$i"); done
 		# Write the results in inds.txt
-		echo "${inds[@]}" > "$dir/inds.txt"
+		echo "${inds[@]}" > "$dir/dwi/inds.txt"
 	
 		# Definition of acqparams.txt
 		
         	# Extract total readout time from DTI.json files
-		total_readout_time=0.0718498
+		total_readout_time=$(jq -r .'TotalReadoutTime' "$dir/dwi/${subject_id}_dwi.json")
 		# Loop to achieve the readout time for each DTI gradient direction
-		for ((i=1; i<=$cols;i++)); do echo "1 0 0 $total_readout_time" >> "$dir/acqparams.txt"; done
+		for ((i=1; i<=$cols;i++)); do echo "0 1 0 ${total_readout_time}" >> "$dir/dwi/acqparams.txt"; done
 		
 		# Run eddy-current correction
-		eddy --imain="$dir/DTI.nii" --mask="$dir/DTI_bet_mask.nii.gz" --index="$dir/inds.txt" --acqp="$dir/acqparams.txt" --bvecs="$dir/DTI.bvec" --bvals="$dir/DTI.bval" --out="$dir/DTI_eddy"
+		eddy --imain="$dir/dwi/${subject_id}_dwi.nii.gz" --mask="$dir/dwi/${subject_id}_dwi_bet_mask.nii.gz" --index="$dir/dwi/inds.txt" --acqp="$dir/dwi/acqparams.txt" --bvecs="$dir/dwi/${subject_id}_dwi.bvec" --bvals="$dir/dwi/${subject_id}_dwi.bval" --out="$dir/dwi/${subject_id}_dwi_eddy"
 		
 		# Rotate the bvec file to match the corrected DTI data
-		xfmrot "$dir/DTI_eddy.eddy_parameters" "$dir/DTI.bvec" "$dir/DTI_eddy_bvec_cor"
+		xfmrot "$dir/dwi/${subject_id}_dwi_eddy.eddy_parameters" "$dir/dwi/${subject_id}_dwi.bvec" "$dir/dwi/${subject_id}_dwi_eddy_bvec_cor"
 		# Replace commas with periods in bvec files
-		sed -i 's/,/./g' "$dir/DTI_eddy_bvec_cor"
+		sed -i 's/,/./g' "$dir/dwi/${subject_id}_dwi_eddy_bvec_cor"
   
   # Postprocessing
   	
   	# Tensor fitting
   
   		# Fit the DTI model on the corrected DTI data
-		dtifit -k "$dir/DTI_eddy.nii.gz" -o "$dir/DTI_fit" -m "$dir/DTI_bet_mask.nii.gz" -r "$dir/DTI_eddy_bvec_cor" -b "$dir/DTI.bval"
+		dtifit -k "$dir/dwi/${subject_id}_dwi_eddy.nii.gz" -o "$dir/dwi/${subject_id}_dwi_fit" -m "$dir/dwi/${subject_id}_dwi_bet_mask.nii.gz" -r "$dir/dwi/${subject_id}_dwi_eddy_bvec_cor" -b "$dir/dwi/${subject_id}_dwi.bval"
 
 	# Calculate the Axial Diffusivity (AxD) from tensor fitting results
-	fslmaths "$dir/DTI_fit_L1.nii.gz" -mul 1 "$dir/DTI_fit_AxD.nii.gz"
+	fslmaths "$dir/dwi/${subject_id}_dwi_fit_L1.nii.gz" -mul 1 "$dir/dwi/${subject_id}_dwi_fit_AxD.nii.gz"
 	# Calculate the Radial Diffusivity (RD) from tensor fitting results
-	fslmaths "$dir/DTI_fit_L2.nii.gz" -add "$dir/DTI_fit_L3.nii.gz" -div 2 "$dir/DTI_fit_RD.nii.gz"
+	fslmaths "$dir/dwi/${subject_id}_dwi_fit_L2.nii.gz" -add "$dir/dwi/${subject_id}_dwi_fit_L3.nii.gz" -div 2 "$dir/dwi/${subject_id}_dwi_fit_RD.nii.gz"
 
   # Space transformation
-  	
+  	# Create another directory to contain the transformed data
+	mkdir "$dir/trans"
+
   	# Register the atlas with brain regions from T1-weighted images Sag IR-SPGR to the DTI images space
   	mri_vol2vol \
-		--mov "$dir/subject_$subject_id/mri/aparc.DKTatlas+aseg.orig.mgz" \
-		--o "$dir/IR_SPGR-to-DTI.nii" \
-		--targ "$dir/DTI.nii" \
+		--mov "$dir/anat/$subject_id/mri/aparc.DKTatlas+aseg.orig.mgz" \
+		--o "$dir/trans/${subject_id}_T1w-to-dwi.nii" \
+		--targ "$dir/dwi/${subject_id}_dwi.nii.gz" \
 		--nearest --regheader
    
   # Extraction of volume and DTI-metrics by brain regions
    	
    	# Extract volume for the brain regions defined
-	mri_segstats --seg "$dir/IR_SPGR-to-DTI.nii" --sum "$dir/volume_results.txt"
+	mri_segstats --seg "$dir/trans/${subject_id}_T1w-to-dwi.nii" --sum "$dir/trans/volume_results.txt"
 	
 	# Declare an array to the region volumes
 	declare -A region_volume
@@ -141,39 +137,42 @@ for dir in /home/carmen-laura/project/*; do
             	# Calculate the total volume
             	vol_total=$(echo "$vol_total + $clean_vol" | bc)
         	fi
-    	done < "$dir/volume_results.txt"
+    	done < "$dir/trans/volume_results.txt"
     
     	# Prepare the output line with subject ID and global DTI-metrics
     	output_line="$subject_id"
     
     	# Calculate the mean FA value for the whole brain
-    	fa_global=$(fslstats "$dir/DTI_fit_FA.nii.gz" -M)
+    	fa_global=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_FA.nii.gz" -M)
     	# Calculate the mean MD value for the whole brain
-    	md_global=$(fslstats "$dir/DTI_fit_MD.nii.gz" -M)
+    	md_global=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_MD.nii.gz" -M)
     	# Calculate the mean RD value for the whole brain
-    	rd_global=$(fslstats "$dir/DTI_fit_RD.nii.gz" -M)
+    	rd_global=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_RD.nii.gz" -M)
     	# Calculate the mean AxD value for the whole brain
-    	axd_global=$(fslstats "$dir/DTI_fit_AxD.nii.gz" -M)
+    	axd_global=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_AxD.nii.gz" -M)
     
     	# Write the results in the output 
     	output_line+=";$vol_total;$fa_global;$md_global;$rd_global;$axd_global"
     
+	# Create another directory for masks
+	mkdir "$dir/masks"
+
     	# Loop through each region to generate masks by brain region and extract region-specific DTI-metrics
     	for region in "${regions[@]}"; do
         	# Consider the region name
         	name="${region_names[$region]}"
         	# Create a binary mask for each brain region
-        	mri_binarize --i "$dir/IR_SPGR-to-DTI.nii" --o "$dir/region_mask_$region.nii" --match $region
+        	mri_binarize --i "$dir/trans/${subject_id}_T1w-to-dwi.nii" --o "$dir/masks/${subject_id}_region_mask_$region.nii" --match $region
         	# Extract the volume by brain region according to region_volume declaration done before
         	vol_region="${region_volume[$region]:-0}"
 		# Calculate the mean FA value for each brain region
-		fa_region=$(fslstats "$dir/DTI_fit_FA.nii.gz" -k "$dir/region_mask_$region.nii" -M)
+		fa_region=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_FA.nii.gz" -k "$dir/masks/${subject_id}_region_mask_$region.nii" -M)
 		# Calculate the mean MD value for each brain region
-        	md_region=$(fslstats "$dir/DTI_fit_MD.nii.gz" -k "$dir/region_mask_$region.nii" -M)
+        	md_region=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_MD.nii.gz" -k "$dir/masks/${subject_id}_region_mask_$region.nii" -M)
         	# Calculate the mean RD value for each brain region
-        	rd_region=$(fslstats "$dir/DTI_fit_RD.nii.gz" -k "$dir/region_mask_$region.nii" -M)
+        	rd_region=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_RD.nii.gz" -k "$dir/masks/${subject_id}_region_mask_$region.nii" -M)
         	# Calculate the mean AxD value for each brain region
-        	axd_region=$(fslstats "$dir/DTI_fit_AxD.nii.gz" -k "$dir/region_mask_$region.nii" -M)
+        	axd_region=$(fslstats "$dir/dwi/${subject_id}_dwi_fit_AxD.nii.gz" -k "$dir/masks/${subject_id}_region_mask_$region.nii" -M)
         	# Write the results in the output 
         	output_line+=";$vol_region;$fa_region;$md_region;$rd_region;$axd_region"
     	done
@@ -182,19 +181,21 @@ for dir in /home/carmen-laura/project/*; do
      	echo "$output_line" >> "$volume_metrics_results"
      	
   # Tractography
-  
+	# Create another directory for tractografies
+	mkdir "$dir/tracts"  
+
 	# Perform tractography on preprocessed DTI images
  
  		# Convert the raw DTI data into src format
-        	$dsi_studio --action=src --source="$dir/DTI.nii" --bval="$dir/DTI.bval" --bvec="$dir/DTI.bvec" --output="$dir/DTI_conversion_pre_dsi"
+        	$dsi_studio --action=src --source="$dir/dwi/${subject_id}_dwi.nii.gz" --bval="$dir/dwi/${subject_id}_dwi.bval" --bvec="$dir/dwi/${subject_id}_dwi.bvec" --output="$dir/tracts/${subject_id}_dwi_conversion_pre_dsi"
         	# Perform DTI reconstruction with a threshold of 70 with the raw DTI data
-		$dsi_studio --action=rec --source="$dir/DTI_conversion_pre_dsi.sz" --method=1 --cmd="[Step T2a][Threshold]=70" --output="$dir/DTI_reconstruction_pre_threshold_dsi"
+		$dsi_studio --action=rec --source="$dir/tracts/${subject_id}_dwi_conversion_pre_dsi.sz" --method=1 --cmd="[Step T2a][Threshold]=70" --output="$dir/tracts/${subject_id}_dwi_reconstruction_pre_threshold_dsi"
  
  	# Perform tractography on posprocessed DTI images
  	
  		# Convert the eddy-corrected DTI data into src format
-        	$dsi_studio --action=src --source="$dir/DTI_eddy.nii.gz" --bval="$dir/DTI.bval" --bvec="$dir/DTI_eddy_bvec_cor" --output="$dir/DTI_conversion_post_dsi"
+        	$dsi_studio --action=src --source="$dir/dwi/${subject_id}_dwi_eddy.nii.gz" --bval="$dir/dwi/${subject_id}_dwi.bval" --bvec="$dir/dwi/${subject_id}_dwi_eddy_bvec_cor" --output="$dir/tracts/${subject_id}_dwi_conversion_post_dsi"
         	# Perform DTI reconstruction with a threshold of 70 with the eddy-corrected DTI data
-        	$dsi_studio --action=rec --source="$dir/DTI_conversion_post_dsi.sz" --method=1 --cmd="[Step T2a][Threshold]=70" --output="$dir/DTI_reconstruction_post_threshold_dsi"
+        	$dsi_studio --action=rec --source="$dir/tracts/${subject_id}_dwi_conversion_post_dsi.sz" --method=1 --cmd="[Step T2a][Threshold]=70" --output="$dir/tracts/${subject_id}_dwi_reconstruction_post_threshold_dsi"
 
 done
