@@ -15,14 +15,15 @@ library(tidyr)
 library(ggplot2)
 library(knitr)
 library(car)
+library(mice)
+library(ggsignif)
+library(kableExtra)
 ```
 
 ```{r, warning = FALSE}
 # Load and preprocess demographic and neurocognitive data
 demographic_data <- read.csv("demographic_neurocognitive_tests.csv", sep = ",", header = TRUE) %>%
-  # Remove of Visit column
-  select(-Visit) %>%
-  # Transform EMCI and LMCI to MCI and SMC to CN in order to get data from three groups: CN, MCI and AD
+  # Transform EMCI and LMCI to MCI and SMC to CN to get data from three groups: CN, MCI, and AD
   mutate(Group = case_when(
       Group == "EMCI" ~ "MCI",
       Group == "LMCI" ~ "MCI",
@@ -30,17 +31,50 @@ demographic_data <- read.csv("demographic_neurocognitive_tests.csv", sep = ",", 
       TRUE ~ Group
   ))
 
-# Load volume and DTI-metrics extracted from imaging data
+# Load volume and DTI metrics extracted from imaging data
 imaging_metrics_volume_data <- read.csv("volume_metrics_results.csv", sep = ",", header = TRUE)
 
-# Merge both datasets and remove subjects with missing DTI-metrics
+# Merge both datasets and remove subjects with missing DTI metrics
 analysis_data <- merge(demographic_data, imaging_metrics_volume_data, by = "ID") %>%
-  filter(!(ID %in% c("003_S_4900","016_S_4638"))) %>%
+  filter(!(ID %in% c("sub-021"))) %>%
   # Order data according to the Groups
-  mutate(Group = factor(Group, levels = c("CN", "MCI", "AD")))
-
+  mutate(Group = factor(Group, levels = c("CN", "MCI", "AD"))) 
 # Display of data of the first rows
 head(analysis_data)
+```
+
+```{r}
+# Perform multiple data imputation with random forest method in the variables with NA values
+imputed_data <- mice(analysis_data%>%select(FAQ_Score,ADAS_Score), method = "rf")
+
+# Fill NA values with the imputed data
+imputed_data_values <- mice::complete(imputed_data)
+
+# Check the absence of NA values
+sum(is.na(imputed_data_values))
+```
+
+```{r}
+# Representation of the data distribution between the basal and imputed database
+par(mfrow=c(1,2))
+
+# Representation of FAQ_Score distribution 
+plot(density(analysis_data$FAQ_Score,na.rm = T),col="purple",main="FAQ_Score")
+lines(density(imputed_data_values <- mice::complete(imputed_data)
+$FAQ_Score),col="grey")
+
+# Representation of ADAS_Score distribution
+plot(density(as.numeric(analysis_data$ADAS_Score),na.rm = T),col="purple",main="ADAS_Score")
+lines(density(as.numeric(imputed_data_values <- mice::complete(imputed_data)
+$ADAS_Score)),col="grey")
+```
+
+```{r}
+# Introduce the imputations in the analysis_data NA values
+analysis_data <- analysis_data %>%
+  mutate(FAQ_Score = imputed_data_values <- mice::complete(imputed_data)
+$FAQ_Score, ADAS_Score = imputed_data_values <- mice::complete(imputed_data)
+$ADAS_Score)
 ```
 
 # Descriptive Statistics
@@ -48,7 +82,7 @@ head(analysis_data)
 ```{r, warning = FALSE}
 # Calculation of quantity of patients by group
 analysis_data %>%
-  count(Group, name = "Number of Patients")
+  count(Group, name = "Number of patients")
 
 # Calculation of gender distribution in the general data (numerical and % values)
 analysis_data %>% count(Gender) %>% mutate(Percent = round(n / sum(n) * 100, 1))
@@ -57,73 +91,43 @@ analysis_data %>% count(Gender) %>% mutate(Percent = round(n / sum(n) * 100, 1))
 analysis_data %>%
   # Extract data by group
   group_by(Group, Gender) %>%
-  # Calculate the number of male and females in each group
+  # Calculate the number of males and females in each group
   summarise(n = n(), .groups = "drop") %>%
-  # Extract percentage of male and females in each group
+  # Extract the percentage of males and females in each group
   group_by(Group) %>%
   # Calculate the percentage 
   mutate(Percent = round(n / sum(n) * 100, 1))
 
-# Calculate mean and SD for all numeric variables of the whole dataset
+# Calculate the mean and SD for all numeric variables of the whole dataset
 general_stats <- analysis_data %>%
-  # Exclude ID, Gender and Group columns (non-numerical) 
-  summarise(across(-c(ID, Gender, Group), list(Mean = ~mean(.x, na.rm = TRUE), SD = ~sd(.x, na.rm = TRUE)), .names = "{.col}_{.fn}")) %>%
+  # Exclude ID, Gender, and Group columns (non-numerical) 
+  summarise(across(-c(ID, Gender, Group), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
   pivot_longer(
     # Reshape columns into rows for better result organization
-    cols = everything(), names_to="Parameter", values_to="value"
-  ) %>%
-  # Re-scale of Vol_
-  mutate(value = ifelse(grepl("^(Vol)", Parameter), value / 1000, value)) %>%
-  # Re-scale of MD_, RD_ and AxD_ variables
-  mutate(value = ifelse(grepl("^(MD|RD|AxD)", Parameter), value * 1000, value)) %>%
-  # Separate variable name from Mean and SD
-  separate(Parameter, into = c("var", "mean_est"), sep = "_(?=[^_]+$)") %>%
-  # Change table format
-  pivot_wider(names_from = mean_est, values_from = value) %>%
-  # Change values 
-  mutate(
-    Mean = as.numeric(Mean),
-    SD = as.numeric(SD),
-    mean_sd = paste0(round(Mean, 2), " ± ", round(SD, 2))) %>%
-  select(Parameter = var, 'Mean ± SD' = mean_sd)
+    cols = everything(), names_to="Variable", values_to="Value"
+  )
 
-# Display of first rows of the data obtained
-kable(general_stats)
+# Display the first rows of the data obtained
+head(general_stats)
 
 # Calculate means and SDs for numeric variables by group
 group_stats <- analysis_data %>%
   # Extract data by group
   group_by(Group) %>%
   # Exclude ID and Gender columns (non-numerical) and calculate these parameters for the rest of them
-  summarise(across(-c(ID, Gender), list(Mean = ~mean(.x, na.rm = TRUE), SD = ~sd(.x, na.rm = TRUE)), .names = "{.col}_{.fn}")) %>%
+  summarise(across(-c(ID, Gender), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
   # Reshape columns into rows for better results organization
-  pivot_longer(cols = -Group, names_to = "Parameter", values_to = "Value") %>%
-  # Re-scale of Vol_
-  mutate(Value = ifelse(grepl("^(Vol)", Parameter), Value / 1000, Value)) %>%
-  # Re-scale of MD_, RD_ and AxD_ variables
-  mutate(Value = ifelse(grepl("^(MD|RD|AxD)", Parameter), Value * 1000, Value)) %>%
-  # Separate Parameter name from Mean and SD
-  separate(Parameter, into = c("var", "mean_stand"), sep = "_(?=[^_]+$)") %>%
-  # Change table format
-  pivot_wider(names_from = mean_stand, values_from = Value) %>% 
-  # Change values 
-  mutate(
-    Mean = as.numeric(Mean),
-    SD = as.numeric(SD),
-    mean_sd = paste0(round(Mean, 2), " ± ", round(SD, 2))) %>%
-  # Choose columns to consider
-  select(Parameter = var, Group, mean_sd) %>%
-  # Change table format
-  pivot_wider(names_from = Group, values_from = mean_sd) 
+  pivot_longer(cols = -Group, names_to = "Variable", values_to = "Value") %>%
+  pivot_wider(names_from = Group, values_from = Value)
 
-# Display of first rows of the data obtained
-kable(group_stats)
+# Display the first rows of the data obtained
+head(group_stats)
 ```
 
 # Descriptive Representations
 
 ```{r, warning = FALSE}
-# Prepare data for pie chart showing patient distribution by group
+# Prepare data for a pie chart showing patient distribution by group
 patients_group <- analysis_data %>%
   # Count the number of patients per group
   count(Group) %>%
@@ -135,34 +139,118 @@ ggplot(patients_group, aes(x = "", y = proportion, fill = Group)) +
   geom_col(width = 1) +
   coord_polar(theta = "y") +
   geom_text(aes(label = label), position = position_stack(vjust = 0.5)) +
-  labs(title = "Patients by group") +
+  labs(title = "Distribution of patients by group") +
   theme_void()
 
-# Prepare data for boxplots of Age and Education by group
-age_educ_group <- analysis_data %>%
-  # Choose the necessary columns
-  select(Group, Age, Education) %>%
-  # Extract the names of the variables and the values of these parameters
-  pivot_longer(cols = c(Age, Education), names_to = "variable", values_to ="value")
+# Representation of Age by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = Age, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of Age by group", y = "Age", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 105) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "ns", y_position = 100) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "ns", y_position = 95) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+  
+# Representation of Education by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = Education, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of Education by group", y = "Education", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 29) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "ns", y_position = 27) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "ns", y_position = 25) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
 
-# Boxplot representations
-ggplot(age_educ_group, aes(x = Group, y = value, fill = Group)) +
-  geom_boxplot() +
-  facet_wrap(~variable, scales = "free") +
-  labs(title = "Age and education by group", y = "value", x = "Group") +
-  theme_minimal()
+# Representation of MMSE_Score by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = MMSE_Score, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of MMSE_Score by group", y = "MMSE_Score", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "***", y_position = 35) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 33) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "***", y_position = 31) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
 
-# Definition of data to do boxplot representations MMSE_Score, FAQ_Score, CDR_Score, ADAS_Score, ADAS_13_Score, FA_global, MD_global, RD_global and AxD_global of each group
-general_boxplot <- c("MMSE_Score", "FAQ_Score", "CDR_Score", "ADAS_Score", "ADAS_13_Score", "Vol_total", "FA_global", "MD_global", "RD_global", "AxD_global")
+# Representation of FAQ_Score by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = FAQ_Score, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of FAQ_Score by group", y = "FAQ_Score", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "***", y_position = 33) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 27) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "***", y_position = 30) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
 
-# Boxplot representations
-for (var in general_boxplot) {
-  variable_rep <- ggplot(analysis_data, aes(x = Group, y = .data[[var]], fill = Group)) +
-    geom_boxplot() +
-    labs(title = paste(var, "by group"), x = "Group", y = var) +
-    theme_minimal()
-  print(variable_rep)
-}
+# Representation of CDR_Score by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = CDR_Score, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of CDR_Score by group", y = "CDR_Score", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "***", y_position = 1.2) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 1.02) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "***", y_position = 1.10) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+# Representation of ADAS_Score by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = ADAS_Score, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of ADAS_Score by group", y = "ADAS_Score", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "***", y_position = 46) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 38) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "***", y_position = 42) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+# Representation of Vol_total by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = Vol_total, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of Vol_total by group", y = "Vol_total", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 1500000) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "ns", y_position = 1400000) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "*", y_position = 1450000) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+# Representation of FA_global by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = FA_global, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of FA_global by group", y = "FA_global", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 0.32) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "*", y_position = 0.30) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "*", y_position = 0.31) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+# Representation of MD_global by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = MD_global, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of MD_global by group", y = "MD_global", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 0.00175) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 0.0016) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "**", y_position = 0.001675) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+# Representation of RD_global by group with statistical significance symbols
+ggplot(analysis_data, aes(x = Group, y = RD_global, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of RD_global by group", y = "RD_global", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 0.001575) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 0.001425) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "***", y_position = 0.0015) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+# AxD_global
+ggplot(analysis_data, aes(x = Group, y = AxD_global, fill = Group)) +
+  geom_boxplot() + 
+  labs (title = "Boxplot of AxD_global by group", y = "AxD_global", x = "Group") + 
+  theme_minimal() +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "*", y_position = 0.00215) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 0.00195) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "**", y_position = 0.00205) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
 ```
 
 # General and Post-hoc Analysis of the Data
@@ -198,16 +286,16 @@ for(var in numeric_values_analyse) {
   # Perform Shapiro-Wilk test for normality 
   shapiro_test <- tryCatch(shapiro.test(model_residuals)$p.value, error = function(e) NA)
   
-  # Determine than the results are normal if p-value > 0.05
+  # Determine that the results are normal if p-value > 0.05
   normal <- !is.na(shapiro_test) && shapiro_test > 0.05
   
   # Perform Levene's test for homogeneity of variance
   levene_test <- tryCatch(leveneTest(formula, data = analysis_data)$'Pr(>F)'[1], error = function(e) NA)
   
-  # Determine than the results are homogenous if p-value > 0.05
+  # Determine that the results are homogenous if p-value > 0.05
   homogeneous <- !is.na(levene_test) && levene_test > 0.05
   
-  # Consider the previously assumptions to decide the test to be used
+  # Consider the previous assumptions to decide the test to be used
   # If the variables are normal and homogeneous
   if(normal && homogeneous) {
     # Perform ANOVA and extract its p-value
@@ -223,13 +311,15 @@ for(var in numeric_values_analyse) {
   # Write the results on the list previously created
   analysis_results[[var]] <- tibble(
     # Name of the variables
-    Parameter = var,
-    # Shapiro-Wilk p-value
-    Shapiro_p_value = formatC(shapiro_test, format = "e", digits = 2),
-    # Levene Test p-value
-    Levene_p_value = formatC(levene_test, format = "e", digits = 2),
+    Variable = var,
+    # Normality condition of the variables
+    Normality = ifelse(is.na(shapiro_test), "Error", ifelse(normal, "Yes", "No")),
+    # Homogeneity condition of the variables
+    Homogeneity = ifelse(is.na(levene_test), "Error", ifelse(homogeneous, "Yes", "No")),
+    # Test used according to the aforementioned assumptions
+    Test = test,
     # Extract p-value with scientific notation and 2 decimals
-    Test_p_value = formatC(pval, format = "e", digits = 2),
+    p_value = formatC(pval, format = "e", digits = 2),
   )
   
   # Execute post-hoc analysis in all significant results obtained
@@ -263,10 +353,10 @@ for(var in names(posthoc_analysis)) {
     df_posthoc <- as.data.frame(posthoc_variable$Group)
     # Define the colnames to be considered 
     df_posthoc$Comparison <- rownames(df_posthoc)
-    df_posthoc$Parameter <- var
-    df_posthoc$test <- "Tukey"
+    df_posthoc$Variable <- var
+    df_posthoc$Test <- "Tukey"
     # Create the columns     
-    df_posthoc <- df_posthoc[, c("Parameter", "Comparison", "p adj")]
+    df_posthoc <- df_posthoc[, c("Variable", "Comparison", "p adj", "Test")]
     # Rename p-value column
     names(df_posthoc)[3] <- "p_value"
     # Write TukeyHSD results in the created dataframe
@@ -284,15 +374,16 @@ for(var in names(posthoc_analysis)) {
     if (is.null(rownames(df_posthoc))) rownames(df_posthoc) <- seq_len(nrow(df_posthoc))
     if (is.null(colnames(df_posthoc))) colnames(df_posthoc) <- seq_len(ncol(df_posthoc))
     
-    # Reshape the previous matrix into a long format adding the groups which are being compared and the test used
+    # Reshape the previous matrix into a long format adding the groups that are being compared and the test used
     df_long_posthoc <- reshape2::melt(as.matrix(df_posthoc), varnames = c("Group1", "Group2"), value.name = "p_value") %>%
       filter(!is.na(p_value)) %>%
       mutate(
-        Parameter = var,
+        Variable = var,
         Comparison = paste(Group1, "-", Group2),
+        Test = "Wilcoxon"
       ) %>%
-      select(Parameter, Comparison, p_value)
-    # Write the results in the posthoc_results list precreated
+      select(Variable, Comparison, Test, p_value)
+    # Write the results in the posthoc_results list prepared
     posthoc_results[[var]] <- df_long_posthoc
   }
 }
@@ -311,33 +402,32 @@ kable(posthoc_table, row.names = FALSE)
 # Correlation study between neurocognitive scores and significant image variables
 
 ```{r, warning = FALSE}
-# Define neurocognitive variables: MMSE_Score, FAQ_Score, CDR_Score, ADAS_Score, ADAS_13_Score
+# Define neurocognitive variables: MMSE_Score, FAQ_Score, CDR_Score, ADAS_Score
 neurocognitive_var <- analysis_data[,6:10]
 
-# Define volume and DTI-metrics achieved from image analysis: Vol_total, FA_global, MD_global, RD_global, AxD_global and by brain region
+# Define volume and DTI metrics achieved from image analysis: Vol_total, FA_global, MD_global, RD_global, AxD_global and by brain region
 image_var <- names(analysis_data)[11:ncol(analysis_data)]
 
 # Add a filter to do the correlation study with the significant imaging variables
 image_var_sig <- general_results %>%
-  filter(as.numeric(Test_p_value) < 0.05 , Parameter %in% image_var) %>%
-  pull(Parameter)
+  filter(as.numeric(p_value) < 0.05 , Variable %in% image_var) %>%
+  pull(Variable)
 
 # Create a dataset to only include the significant imaging variables
 image_analysis_results <- analysis_data[, image_var_sig]
 
 # Generate a correlation table with the correlation coefficient (r) and p-value to study the relationship between these variables
-correlation_results <- expand.grid(Neurocognitive_Test = names(neurocognitive_var), Imaging_Results = image_var_sig, stringsAsFactors = FALSE) %>%
+correlation_results <- expand.grid(Neurocognitive_Tests = names(neurocognitive_var), Image_Analysis_Results = image_var_sig, stringsAsFactors = FALSE) %>%
   rowwise() %>%
   mutate(
-    Correlation_coefficient = cor(analysis_data[[Neurocognitive_Test]], analysis_data[[Imaging_Results]], use = "complete.obs"),
-    p_value = cor.test(analysis_data[[Neurocognitive_Test]], analysis_data[[Imaging_Results]])$p.value
+    Correlation = cor(analysis_data[[Neurocognitive_Tests]], analysis_data[[Image_Analysis_Results]], use = "complete.obs"),
+    p_value = cor.test(analysis_data[[Neurocognitive_Tests]], analysis_data[[Image_Analysis_Results]])$p.value
   ) %>%
   ungroup() %>%
   mutate(
-    Correlation_coefficient = round(Correlation_coefficient, 2),
     p_value = formatC(as.numeric(p_value), format = "e", digits = 2),
   )
 
-# Display of the correlation results: correlation coefficient (r) and p-value
+# Display of the correlation results
 kable(correlation_results)
 ```
