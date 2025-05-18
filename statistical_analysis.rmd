@@ -104,8 +104,15 @@ general_stats <- analysis_data %>%
   summarise(across(-c(ID, Gender, Group), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
   pivot_longer(
     # Reshape columns into rows for better result organization
-    cols = everything(), names_to="Variable", values_to="Value"
-  )
+    cols = everything(), names_to= "Variable", values_to= "Value"
+  ) %>%
+  # Re-scale of Vol_, MD_, RD_, and AxD_ variables
+  mutate(
+    Value = case_when (
+      grepl("^(Vol)", Variable) ~ Value / 1000,
+      grepl("^(MD|RD|AxD)", Variable) ~ Value * 1000,
+      TRUE ~ Value
+      )) 
 
 # Display the first rows of the data obtained
 head(general_stats)
@@ -118,6 +125,13 @@ group_stats <- analysis_data %>%
   summarise(across(-c(ID, Gender), list(Mean = ~round(mean(.x, na.rm = TRUE), 3), SD = ~round(sd(.x, na.rm = TRUE), 3)), .names = "{.col}_{.fn}")) %>%
   # Reshape columns into rows for better results organization
   pivot_longer(cols = -Group, names_to = "Variable", values_to = "Value") %>%
+  # Re-scale of Vol_, MD_, RD_, and AxD_ variables
+  mutate(
+    Value = case_when (
+      grepl("^(Vol)", Variable) ~ Value / 1000,
+      grepl("^(MD|RD|AxD)", Variable) ~ Value * 1000,
+      TRUE ~ Value
+      )) %>%
   pivot_wider(names_from = Group, values_from = Value)
 
 # Display the first rows of the data obtained
