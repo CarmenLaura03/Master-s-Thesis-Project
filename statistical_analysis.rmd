@@ -98,22 +98,28 @@ analysis_data %>%
   # Calculate the percentage 
   mutate(Percent = round(n / sum(n) * 100, 1))
 
-# Calculate the mean and SD for all numeric variables of the whole dataset
+# Calculate mean and SD for all numeric variables of the whole dataset
 general_stats <- analysis_data %>%
-  # Exclude ID, Gender, and Group columns (non-numerical) 
+  # Exclude ID, Gender and Group columns (non-numerical) 
   summarise(across(-c(ID, Gender, Group), list(Mean = ~mean(.x, na.rm = TRUE), SD = ~sd(.x, na.rm = TRUE)), .names = "{.col}_{.fn}")) %>%
   pivot_longer(
     # Reshape columns into rows for better result organization
-    cols = everything(), names_to= "Variable", values_to= "Value"
+    cols = everything(), names_to="Variable", values_to="Value"
   ) %>%
-  # Re-scale of Vol_, MD_, RD_, and AxD_ variables
+  # Re-scale of Vol_
+  mutate(Value = ifelse(grepl("^(Vol)", Variable), Value / 1000, Value)) %>%
+  # Re-scale of MD_, RD_ and AxD_ variables
+  mutate(Value = ifelse(grepl("^(MD|RD|AxD)", Variable), Value * 1000, Value)) %>%
+  # Separate variable name from Mean and SD
+  separate(Variable, into = c("var", "mean_est"), sep = "_(?=[^_]+$)") %>%
+  # Change table format
+  pivot_wider(names_from = mean_est, values_from = Value) %>%
+  # Change values 
   mutate(
-    Value = case_when (
-      grepl("^(Vol)", Variable) ~ Value / 1000,
-      grepl("^(MD|RD|AxD)", Variable) ~ Value * 1000,
-      TRUE ~ Value
-      ),
-    Value = round(Value, 3)) 
+    Mean = as.numeric(Mean),
+    SD = as.numeric(SD),
+    mean_sd = paste0(round(Mean, 3), " ± ", round(SD, 3))) %>%
+  select(Variable = var, 'Mean ± SD' = mean_sd)
 
 # Display the first rows of the data obtained
 head(general_stats)
@@ -126,15 +132,23 @@ group_stats <- analysis_data %>%
   summarise(across(-c(ID, Gender), list(Mean = ~mean(.x, na.rm = TRUE), SD = ~sd(.x, na.rm = TRUE)), .names = "{.col}_{.fn}")) %>%
   # Reshape columns into rows for better results organization
   pivot_longer(cols = -Group, names_to = "Variable", values_to = "Value") %>%
-  # Re-scale of Vol_, MD_, RD_, and AxD_ variables
+  # Re-scale of Vol_
+  mutate(Value = ifelse(grepl("^(Vol)", Variable), Value / 1000, Value)) %>%
+  # Re-scale of MD_, RD_ and AxD_ variables
+  mutate(Value = ifelse(grepl("^(MD|RD|AxD)", Variable), Value * 1000, Value)) %>%
+  # Separate variable name from Mean and SD
+  separate(Variable, into = c("var", "mean_stand"), sep = "_(?=[^_]+$)") %>%
+  # Change table format
+  pivot_wider(names_from = mean_stand, values_from = Value) %>% 
+  # Change values 
   mutate(
-    Value = case_when (
-      grepl("^(Vol)", Variable) ~ Value / 1000,
-      grepl("^(MD|RD|AxD)", Variable) ~ Value * 1000,
-      TRUE ~ Value
-      ), 
-    Value = round(Value, 3)) %>%
-  pivot_wider(names_from = Group, values_from = Value)
+    Mean = as.numeric(Mean),
+    SD = as.numeric(SD),
+    mean_sd = paste0(round(Mean, 3), " ± ", round(SD, 3))) %>%
+  # Choose columns to consider
+  select(Variable = var, Group, mean_sd) %>%
+  # Change table format
+  pivot_wider(names_from = Group, values_from = mean_sd) 
 
 # Display the first rows of the data obtained
 head(group_stats)
