@@ -8,19 +8,19 @@ Through the integration of neuroimaging and clinical data, the project applies a
 
 The general objectives of this project are outlined below, followed by their corresponding specific objectives and tasks: 
 
-- General Objective 1: Understanding DTI analysis by brain regions in FreeSurfer.
+- General Objective 1: Understanding DTI analysis by brain regions.
     - Specific Objective 1.1: Studying different steps necessary for the analysis of DTI images by brain regions.
-        - Task 1: Brain segmentation with T1-WI images.
+        - Task 1: Brain segmentation with T1-weighted images (T1-WI).
         - Task 2: Preprocessing of DTI images.
         - Task 3: Tensor fitting for DTI images.
-        - Task 4: Extraction of DTI-metrics (FA, MD, RD, AxD) according to the brain segmentation.
+        - Task 4: Extraction of DTI metrics (FA, MD, RD, AxD) according to the brain segmentation.
     - Specific Objective 1.2: Creating a pipeline for DTI analysis by brain regions.
         - Task 5: Development of automated script for DTI analysis by brain regions. 
-- General Objective 2: Performing statistical data analysis of demographic data, neuropsychological outcomes, and DTI-metrics.
-    - Specific Objective 2.1: Analyzing differences in demographic data, neuropsychological outcomes, and DTI-metrics across AD, MCI, and CN groups.
-        - Task 6: Use statistical methods to study between-group differences for demographic data, neuropsychological outcomes, and DTI-metrics.
-    - Specific Objective 2.2: Investigating associations between neuropsychological outcomes and DTI-metrics.
-        - Task 7: Use statistical methods to assess correlations between neuropsychological outcomes and DTI-metrics.
+- General Objective 2: Performing statistical data analysis of demographic data, neuropsychological outcomes, and DTI metrics.
+    - Specific Objective 2.1: Analyzing differences in demographic data, neuropsychological outcomes, and DTI metrics across AD, MCI, and CN groups.
+        - Task 6: Use statistical methods to study between-group differences for demographic data, neuropsychological outcomes, and DTI metrics.
+    - Specific Objective 2.2: Investigating associations between neuropsychological outcomes and DTI metrics.
+        - Task 7: Use statistical methods to assess correlations between neuropsychological outcomes and DTI metrics.
 
 ## Data Source: ADNI
 
@@ -76,7 +76,7 @@ Anatomical segmentations were registered to diffusion space, and regional/global
 
 This final phase was carried out entirely in R using the script statistical_analysis.rmd, combining and analyzing the datasets generated in the previous phases. The demographic and imaging datasets were merged to create a unified analysis framework.
 
-Descriptive statistics were computed for demographic variables, cognitive scores, and DTI-metrics, with visual summaries including pie charts and boxplots.
+Descriptive statistics were computed for demographic variables, cognitive scores, and DTI metrics, with visual summaries including pie charts and boxplots.
 
 Inferential statistical testing included:
 
@@ -96,6 +96,6 @@ Inferential statistical testing included:
 
     - Pairwise Wilcoxon tests for non-parametric comparisons.
 
-Correlation analysis was conducted using Pearson’s correlation to examine associations between neurocognitive scores and DTI-metrics. Only results with p < 0.05 and |r| ≥ 0.3 (moderate or stronger) were retained. Final outputs were compiled into statistical_analysis.html, offering a complete descriptive and inferential summary of the results.
+Correlation analysis was conducted using Pearson’s correlation to examine associations between neurocognitive scores and DTI metrics. Only results with p < 0.05 and |r| ≥ 0.3 (moderate or stronger) were retained. Final outputs were compiled into statistical_analysis.html, offering a complete descriptive and inferential summary of the results.
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
