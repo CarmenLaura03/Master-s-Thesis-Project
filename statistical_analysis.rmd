@@ -443,14 +443,11 @@ image_var_sig <- general_results %>%
   filter(as.numeric(p_value) < 0.05 , Variable %in% image_var) %>%
   pull(Variable)
 
-# Create a dataset to only include the significant imaging variables
-image_analysis_results <- analysis_data[, image_var_sig]
-
 # Generate a correlation table with the correlation coefficient (r) and p-value to study the relationship between these variables
 correlation_results <- expand.grid(Neurocognitive_Tests = names(neurocognitive_var), Image_Analysis_Results = image_var_sig, stringsAsFactors = FALSE) %>%
   rowwise() %>%
   mutate(
-    Correlation = cor(analysis_data[[Neurocognitive_Tests]], analysis_data[[Image_Analysis_Results]], use = "complete.obs"),
+    Correlation = round(cor(analysis_data[[Neurocognitive_Tests]], analysis_data[[Image_Analysis_Results]], use = "complete.obs"), 3),
     p_value = cor.test(analysis_data[[Neurocognitive_Tests]], analysis_data[[Image_Analysis_Results]])$p.value
   ) %>%
   ungroup() %>%
