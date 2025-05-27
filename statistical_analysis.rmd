@@ -173,7 +173,7 @@ ggplot(patients_group, aes(x = "", y = proportion, fill = Group)) +
 # Representation of Age by group with statistical significance symbols
 ggplot(analysis_data, aes(x = Group, y = Age, fill = Group)) +
   geom_boxplot() + 
-  labs (title = "Boxplot of Age by group", y = "Age", x = "Group") + 
+  labs (title = "Boxplot of Age by group", y = "Age (yrs)", x = "Group") + 
   theme_minimal() +
   geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 105) +
   geom_signif(comparisons = list(c("CN", "MCI")), annotations = "ns", y_position = 100) +
@@ -183,7 +183,7 @@ ggplot(analysis_data, aes(x = Group, y = Age, fill = Group)) +
 # Representation of Education by group with statistical significance symbols
 ggplot(analysis_data, aes(x = Group, y = Education, fill = Group)) +
   geom_boxplot() + 
-  labs (title = "Boxplot of Education by group", y = "Education", x = "Group") + 
+  labs (title = "Boxplot of Education by group", y = "Education (yrs)", x = "Group") + 
   theme_minimal() +
   geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 29) +
   geom_signif(comparisons = list(c("CN", "MCI")), annotations = "ns", y_position = 27) +
@@ -231,13 +231,13 @@ ggplot(analysis_data, aes(x = Group, y = ADAS_Score, fill = Group)) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
 
 # Representation of Vol_total by group with statistical significance symbols
-ggplot(analysis_data, aes(x = Group, y = Vol_total, fill = Group)) +
+ggplot(analysis_data, aes(x = Group, y = Vol_total / 1000, fill = Group)) +
   geom_boxplot() + 
-  labs (title = "Boxplot of Vol_total by group", y = "Vol_total", x = "Group") + 
+  labs (title = "Boxplot of Vol_total by group", y = expression("Vol_total (cm"^3*")"), x = "Group") + 
   theme_minimal() +
-  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 1500000) +
-  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "ns", y_position = 1400000) +
-  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "*", y_position = 1450000) +
+  geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 1500) +
+  geom_signif(comparisons = list(c("CN", "MCI")), annotations = "ns", y_position = 1400) +
+  geom_signif(comparisons = list(c("AD", "MCI")), annotations = "*", y_position = 1450) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
 
 # Representation of FA_global by group with statistical significance symbols
@@ -253,7 +253,7 @@ ggplot(analysis_data, aes(x = Group, y = FA_global, fill = Group)) +
 # Representation of MD_global by group with statistical significance symbols
 ggplot(analysis_data, aes(x = Group, y = MD_global, fill = Group)) +
   geom_boxplot() + 
-  labs (title = "Boxplot of MD_global by group", y = "MD_global", x = "Group") + 
+  labs (title = "Boxplot of MD_global by group", y = expression("MD_global ("*10^-3*" mm"^2*"/s" *")"), x = "Group") + 
   theme_minimal() +
   geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 0.00175) +
   geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 0.0016) +
@@ -263,7 +263,7 @@ ggplot(analysis_data, aes(x = Group, y = MD_global, fill = Group)) +
 # Representation of RD_global by group with statistical significance symbols
 ggplot(analysis_data, aes(x = Group, y = RD_global, fill = Group)) +
   geom_boxplot() + 
-  labs (title = "Boxplot of RD_global by group", y = "RD_global", x = "Group") + 
+  labs (title = "Boxplot of RD_global by group", y = expression("RD_global ("*10^-3*" mm"^2*"/s" *")"), x = "Group") + 
   theme_minimal() +
   geom_signif(comparisons = list(c("CN", "AD")), annotations = "ns", y_position = 0.001575) +
   geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 0.001425) +
@@ -273,7 +273,7 @@ ggplot(analysis_data, aes(x = Group, y = RD_global, fill = Group)) +
 # AxD_global
 ggplot(analysis_data, aes(x = Group, y = AxD_global, fill = Group)) +
   geom_boxplot() + 
-  labs (title = "Boxplot of AxD_global by group", y = "AxD_global", x = "Group") + 
+  labs (title = "Boxplot of AxD_global by group", y = expression("AxD_global ("*10^-3*" mm"^2*"/s" *")"), x = "Group") + 
   theme_minimal() +
   geom_signif(comparisons = list(c("CN", "AD")), annotations = "*", y_position = 0.00215) +
   geom_signif(comparisons = list(c("CN", "MCI")), annotations = "***", y_position = 0.00195) +
