@@ -39,8 +39,6 @@ analysis_data <- merge(demographic_data, imaging_metrics_volume_data, by = "ID")
   filter(!(ID %in% c("sub-021"))) %>%
   # Order data according to the Groups
   mutate(Group = factor(Group, levels = c("CN", "MCI", "AD"))) 
-# Display of data of the first rows
-head(analysis_data)
 ```
 
 ```{r}
