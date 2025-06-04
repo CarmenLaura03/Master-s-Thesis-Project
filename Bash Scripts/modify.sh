@@ -15,9 +15,9 @@ extract_coincidences() {
 	output=$2
 	# Extract unique patient IDs
 	awk -F',' 'NR > 1 {
-	  gsub(/"/, "", $2); # Remove quotes from the second column
-	  if (!seen[$2]++) { # Only print unique patient IDs
-		print $2", "$3", "$4", "$5", "$6 # Output columns 2-6
+	  gsub(/"/, "", $2); 
+	  if (!seen[$2]++) { 
+		print $2", "$3", "$4", "$5", "$6 
 	  }
 	}' "$file" | sort > "$output"
 }
@@ -72,7 +72,7 @@ NR==1 {
 # Process MMSE scores
 awk -F',' '
     BEGIN {
-        OFS = ","  # Specify the output field separator
+        OFS = ","  
     }
 
     NR == FNR {
@@ -135,7 +135,7 @@ awk -F',' '
 # Process FAQ scores
 awk -F',' '
     BEGIN {
-        OFS = ","  # Specify the output field separator
+        OFS = ","  
     }
 
     NR == FNR {
@@ -259,7 +259,7 @@ awk -F',' '
 # Process ADAS scores
 awk -F',' '
     BEGIN {
-        OFS = ","  # Specify the output field separator
+        OFS = ","  
     }
 
     NR == FNR {
@@ -318,7 +318,7 @@ awk -F',' '
 # Process ADAS_13 scores
 awk -F',' '
     BEGIN {
-        OFS = ","  # Specify the output field separator
+        OFS = ","  
     }
 
     NR == FNR {
