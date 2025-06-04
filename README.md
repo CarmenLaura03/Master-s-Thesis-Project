@@ -8,19 +8,12 @@ Through the integration of neuroimaging and clinical data, the project applies a
 
 The general objectives of this project are outlined below, followed by their corresponding specific objectives and tasks: 
 
-- General Objective 1: Understanding DTI analysis by brain regions.
-    - Specific Objective 1.1: Studying different steps necessary for the analysis of DTI images by brain regions.
-        - Task 1: Brain segmentation with T1-weighted images (T1-WI).
-        - Task 2: Preprocessing of DTI images.
-        - Task 3: Tensor fitting for DTI images.
-        - Task 4: Extraction of DTI metrics (FA, MD, RD, AxD) according to the brain segmentation.
-    - Specific Objective 1.2: Creating a pipeline for DTI analysis by brain regions.
-        - Task 5: Development of automated script for DTI analysis by brain regions. 
-- General Objective 2: Performing statistical data analysis of demographic data, neuropsychological outcomes, and DTI metrics.
-    - Specific Objective 2.1: Analyzing differences in demographic data, neuropsychological outcomes, and DTI metrics across AD, MCI, and CN groups.
-        - Task 6: Use statistical methods to study between-group differences for demographic data, neuropsychological outcomes, and DTI metrics.
-    - Specific Objective 2.2: Investigating associations between neuropsychological outcomes and DTI metrics.
-        - Task 7: Use statistical methods to assess correlations between neuropsychological outcomes and DTI metrics.
+- General Objective 1: To understand DTI analysis by brain regions.
+    - Specific Objective 1.1: To study steps required to perform brain region-based DTI analysis.
+    - Specific Objective 1.2: To create a pipeline to perform brainr egion-based DTI analysis.
+- General Objective 2: To perform statistical analysis of demographic, neuropsychological, and DTI-derived data.
+    - Specific Objective 2.1: To analyze differences in demographic, neuropsychological, and DTI-derived data across CN, MCI, and AD groups.
+    - Specific Objective 2.2: To investigate correlations between neuropsychological outcomes and DTI-derived metrics.
 
 ## Data Source: ADNI
 
@@ -34,7 +27,7 @@ Website: http://adni.loni.usc.edu
 
 ### Data Preparation
 
-The first phase focused on building a comprehensive clinical-cognitive dataset from raw ADNI files. Subjects were selected based on the availability of both T1-weighted (IR-SPGR) and Axial-DTI sequences from the ADNI2 cohort. Demographic information was extracted, including age, gender, diagnostic group (CN, MCI, AD), and years of education.
+The first phase focused on building a comprehensive clinical-cognitive dataset from raw ADNI files. Subjects were selected based on the availability of both T1-weighted (IR-SPGR) and DTI sequences from the ADNI-2 cohort. Demographic information was extracted, including diagnostic group (CN, MCI, AD), age, gender, and years of education.
 
 Neurocognitive test scores were obtained for the following assessments:
 
@@ -46,11 +39,11 @@ Neurocognitive test scores were obtained for the following assessments:
 
 - Alzheimer’s Disease Assessment Scale (ADAS and ADAS-13).
 
-The Bash script modify.sh was developed to automate the merging of variables and generate the final dataset: demographic_neurocognitive_tests.csv, comprising 185 subjects and 10 core variables.
+The Bash script modify.sh was developed to automate the merging of demographic and neuropsychological variables and generate the final dataset: demographic_neurocognitive_tests.csv, comprising 185 subjects.
 
 ## Image Processing and Metric Extraction
 
-This phase involved the automated computation of volumetric and diffusion-based brain metrics using various neuroimaging tools. T1-weighted images were segmented using FastSurfer with the DKTatlas+aseg protocol to label cortical and subcortical brain regions.
+This phase involved the automated computation of volume and diffusion-based brain metrics using various neuroimaging tools. T1-weighted images were segmented using FastSurfer with the DKTatlas+aseg protocol to label cortical and subcortical brain regions.
 
 DTI images were preprocessed using FSL, including:
 
@@ -74,7 +67,7 @@ Anatomical segmentations were registered to diffusion space, and regional/global
 
 ## Statistical Analysis
 
-This final phase was carried out entirely in R using the script statistical_analysis.rmd, combining and analyzing the datasets generated in the previous phases. The demographic and imaging datasets were merged to create a unified analysis framework.
+This final phase was carried out entirely in R as specified in the script statistical_analysis.rmd, combining and analyzing the datasets generated in the previous phases. The demographic and imaging datasets were merged to create a unified analysis dataset.
 
 Descriptive statistics were computed for demographic variables, cognitive scores, and DTI metrics, with visual summaries including pie charts and boxplots.
 
@@ -86,16 +79,16 @@ Inferential statistical testing included:
 
 - Between-group comparisons using:
 
-    - ANOVA (when normality and homogeneity).
+    - ANOVA (when normality and homogeneity, parametric variables).
 
-    - Kruskal-Wallis (when non-normality and/or non-homogeneity).
+    - Kruskal-Wallis (when non-normality and/or non-homogeneity, non-parametric variables).
 
 -  Post-hoc testing:
 
-    - Tukey’s HSD for parametric results.
+    - Tukey’s HSD for parametric variables.
 
-    - Pairwise Wilcoxon tests for non-parametric comparisons.
+    - Pairwise Wilcoxon tests for non-parametric variables.
 
-Correlation analysis was conducted using Pearson’s correlation to examine associations between neurocognitive scores and DTI metrics. Only results with p < 0.05 and |r| ≥ 0.3 (moderate or stronger) were retained. Final outputs were compiled into statistical_analysis.html, offering a complete descriptive and inferential summary of the results.
+Correlation analysis was conducted using Pearson’s correlation to examine associations between neurocognitive scores and DTI metrics. Only results with p < 0.05 and |r| ≥ 0.3 (moderate or stronger) were retained. Final outputs were compiled into statistical_analysis.html.
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
